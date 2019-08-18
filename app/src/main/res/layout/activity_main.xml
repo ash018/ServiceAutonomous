@@ -58,28 +58,20 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/bgcolor"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        tools:layout_editor_absoluteX="8dp">
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="647dp"
-        android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout">
+        tools:layout_editor_absoluteX="8dp">
 
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="250dp">
+
+     </LinearLayout>
         <ImageView
             android:id="@+id/imgjobcard"
             android:layout_width="wrap_content"
@@ -93,6 +85,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:srcCompat="@drawable/buttonjobcard" />
+
         <ImageView
             android:id="@+id/imglogout"
             android:layout_width="wrap_content"

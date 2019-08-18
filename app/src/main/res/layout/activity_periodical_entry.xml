@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InstallationEntry">
+    tools:context=".PeriodicalEntry">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
@@ -80,21 +80,20 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/instdateofbuy"
+                        android:id="@+id/insthoureofbuy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:hint="ট্রাক্টর ক্রয়ের তারিক" />
+                        android:hint="ঘণ্টাঃ-" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/insthoureofbuy"
+                        android:id="@+id/instdateofbuy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="ঘন্টা" />
+                        android:hint="সার্ভিস চাওয়ার তারিখ ও সময়" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -104,8 +103,17 @@
                         android:id="@+id/instdateofinstallation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:hint="ইন্সটলেশনের তারিখঃ-" />
+                        android:hint="সার্ভিস শুরুর তারিখ ও সময়" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/instdateofendofservice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="সার্ভিস শেষের তারিখ ও সময়" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
