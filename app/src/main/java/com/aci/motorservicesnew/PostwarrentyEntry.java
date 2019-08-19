@@ -44,6 +44,10 @@ public class PostwarrentyEntry extends AppCompatActivity {
         serviceType = srvTypeIntent.getStringExtra("ServiceType");
 
         instcustomername = (EditText) findViewById(R.id.instcustomername);
+        instmobilenumber = (EditText) findViewById(R.id.instmobilenumber);
+        insthoureofbuy = (EditText) findViewById(R.id.insthoureofbuy);
+
+        instdateofbuy = (EditText) findViewById(R.id.instdateofbuy);
 
 
         btnprevious = (Button) findViewById(R.id.btnprevious);
@@ -52,7 +56,6 @@ public class PostwarrentyEntry extends AppCompatActivity {
         instdateofbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 datePicker(instdateofbuy);
             }
         });
