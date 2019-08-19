@@ -93,8 +93,9 @@ public class SelectProduct extends AppCompatActivity {
 
                 }
                 else{
+                    System.out.println("===ServiceProduct11===="+rdBtnVal);
                     Intent nextActivity = new Intent(SelectProduct.this, ServiceCall.class);
-                    nextActivity.putExtra("ServiceProduct",rdBtnVal );
+                    nextActivity.putExtra("ServiceProduct", String.valueOf(rdBtnVal));
                     startActivity(nextActivity);
                     //finish();
                 }

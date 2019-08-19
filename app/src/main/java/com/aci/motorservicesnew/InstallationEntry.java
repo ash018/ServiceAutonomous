@@ -106,6 +106,7 @@ public class InstallationEntry extends AppCompatActivity {
 
                 }
                 else{
+                    System.out.println("serviceProduct=="+ serviceProduct + " == "+serviceCall + "=="+serviceType);
                     db.addInstallationService(serviceProduct, serviceCall,
                             serviceType, customerName, mobile, buyingDate+":00", hours, installationDate+":00"
                     );

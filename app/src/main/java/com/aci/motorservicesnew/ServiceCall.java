@@ -26,6 +26,7 @@ public class ServiceCall extends AppCompatActivity {
         Intent selProIntent = getIntent();
         serviceProduct = selProIntent.getStringExtra("ServiceProduct");
 
+        //System.out.println("====ServiceProduct22==="+serviceProduct);
         radiobtngroupservicecall = (RadioGroup) findViewById(R.id.radiobtngroupservicecall);
 
         rdotractor = (RadioButton) findViewById(R.id.rdotractor);
@@ -72,8 +73,8 @@ public class ServiceCall extends AppCompatActivity {
                 }
                 else {
                     Intent nextActivity = new Intent(ServiceCall.this, ServiceType.class);
-                    nextActivity.putExtra("ServiceCallType", rdBtnVal);
-                    nextActivity.putExtra("ServiceProduct", serviceProduct);
+                    nextActivity.putExtra("ServiceCallType", String.valueOf(rdBtnVal));
+                    nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                     startActivity(nextActivity);
                     //finish();
                 }

@@ -81,40 +81,40 @@ public class ServiceType extends AppCompatActivity {
                 else{
                     if(rdBtnVal == 1){
                         Intent nextActivity = new Intent(ServiceType.this, InstallationEntry.class);
-                        nextActivity.putExtra("ServiceType",rdBtnVal );
-                        nextActivity.putExtra("ServiceCallType", serviceCall);
-                        nextActivity.putExtra("ServiceProduct", serviceProduct);
+                        nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
+                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                         startActivity(nextActivity);
                     }
                     if(rdBtnVal == 2){
                         Intent nextActivity = new Intent(ServiceType.this, PeriodicalEntry.class);
-                        nextActivity.putExtra("ServiceType",rdBtnVal );
-                        nextActivity.putExtra("ServiceCallType", serviceCall);
-                        nextActivity.putExtra("ServiceProduct", serviceProduct);
+                        nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
+                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                         startActivity(nextActivity);
                     }
 
                     if(rdBtnVal == 3){
                         Intent nextActivity = new Intent(ServiceType.this, WarrentyEntry.class);
-                        nextActivity.putExtra("ServiceType",rdBtnVal );
-                        nextActivity.putExtra("ServiceCallType", serviceCall);
-                        nextActivity.putExtra("ServiceProduct", serviceProduct);
+                        nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                         startActivity(nextActivity);
                     }
 
                     if(rdBtnVal == 4){
                         Intent nextActivity = new Intent(ServiceType.this, PaidEntry.class);
-                        nextActivity.putExtra("ServiceType",rdBtnVal );
-                        nextActivity.putExtra("ServiceCallType", serviceCall);
-                        nextActivity.putExtra("ServiceProduct", serviceProduct);
+                        nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                         startActivity(nextActivity);
                     }
 
                     if(rdBtnVal == 5){
                         Intent nextActivity = new Intent(ServiceType.this, PostwarrentyEntry.class);
-                        nextActivity.putExtra("ServiceType",rdBtnVal );
-                        nextActivity.putExtra("ServiceCallType", serviceCall);
-                        nextActivity.putExtra("ServiceProduct", serviceProduct);
+                        nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                         startActivity(nextActivity);
                     }
                 }

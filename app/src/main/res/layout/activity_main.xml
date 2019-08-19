@@ -64,33 +64,41 @@
         android:layout_height="647dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
+        android:background="@drawable/servicebg"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="8dp">
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="250dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="147dp">
 
-     </LinearLayout>
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imgjobcard"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/buttonjobcard" />
+            app:srcCompat="@drawable/btnjobcard" />
+        <ImageView
+            android:id="@+id/imgjobcardview"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/btnjobcardview" />
 
         <ImageView
             android:id="@+id/imgserviceperformance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/buttonjobcard" />
+            app:srcCompat="@drawable/btnserviceperformance" />
 
         <ImageView
             android:id="@+id/imglogout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/buttonjobcard" />
+            app:srcCompat="@drawable/btnlogout" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
