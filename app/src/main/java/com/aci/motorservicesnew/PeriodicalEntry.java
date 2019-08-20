@@ -53,10 +53,11 @@ public class PeriodicalEntry extends AppCompatActivity {
         btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
 
-        insthoureofbuy.setOnClickListener(new View.OnClickListener() {
+        instdateofbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePicker(insthoureofbuy);
+
+                datePicker(instdateofbuy);
             }
         });
 
@@ -88,8 +89,9 @@ public class PeriodicalEntry extends AppCompatActivity {
             public void onClick(View view) {
                 String customerName = instcustomername.getText().toString();
                 String mobile = instmobilenumber.getText().toString();
-                String buyingDate = instdateofbuy.getText().toString();
                 String hours = insthoureofbuy.getText().toString();
+
+                String buyingDate = instdateofbuy.getText().toString();
                 String installationDate = instdateofinstallation.getText().toString();
                 String insServiceEndDate = instdateofendofservice.getText().toString();
 
@@ -113,7 +115,7 @@ public class PeriodicalEntry extends AppCompatActivity {
                 }
                 else{
                     db.addPerodicEntryService(serviceProduct, serviceCall,
-                            serviceType, customerName, mobile, buyingDate+":00", hours,
+                            serviceType, customerName, mobile,  hours, buyingDate+":00",
                             installationDate+":00", insServiceEndDate+":00"
                     );
                     Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
@@ -159,6 +161,5 @@ public class PeriodicalEntry extends AppCompatActivity {
                 }, mHour, mMinute, false);
         timePickerDialog.show();
     }
-
 
 }

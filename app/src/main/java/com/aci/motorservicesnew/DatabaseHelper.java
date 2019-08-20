@@ -18,12 +18,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DATABASEHELPER";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "MotorService";
-    // Table Names
+    private static final String DATABASE_NAME = "MotorService.db";
 
     private static final String TABLE_SERVICE_MANAGER = "servicemanager";
 
-    // Common column names
+
     private static final String KEY_ID = "id";
     private static final String KEY_SERVER_MASTER_ID = "server_id";
     private static final String KEY_CREATED_AT = "created_at";
@@ -55,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_CUSTOMER_NAME + " TEXT, " + KEY_CUSTOMER_MOBILE + " TEXT, " + KEY_BUYING_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "
             + KEY_RUNNING_HOUER +" TEXT, "+ KEY_INSTALLAION_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "
             + KEY_CALL_SERVICE_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_START_DATE + " DATETIME DEFAULT (datetime('now','localtime')),  "
-            + KEY_SERVICE_END_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_INCOME + "TEXT, "
+            + KEY_SERVICE_END_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_INCOME + " TEXT, "
             + KEY_VISITED_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "+ KEY_CREATED_AT + " DATETIME DEFAULT (datetime('now','localtime')),"
             + KEY_EDITED_AT + " DATETIME DEFAULT (datetime('now','localtime')));";
 
@@ -123,5 +122,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean addWarrentyEntry(String productType, String callType, String serviceType, String customerName, String mobile, String houers, String buyingDate,  String installationDate, String insserviceenddate ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_SERVICE_TYPE , serviceType);
+        contentValues.put(KEY_CALL_TYPE , callType);
+        contentValues.put(KEY_PRODUCT , productType);
+        contentValues.put(KEY_CUSTOMER_NAME , customerName);
+        contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
+        contentValues.put(KEY_RUNNING_HOUER , houers);
+        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
+        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
+        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_IS_SYNCH , "N");
+        contentValues.put(KEY_EDIT_LOG_COUNT , "1");
+        contentValues.put(KEY_IS_EDIT , "N");
+
+        long result = db.insert(TABLE_SERVICE_MANAGER, null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean addPaidEntry(String productType, String callType, String serviceType, String customerName, String mobile, String houers, String buyingDate,  String installationDate, String insserviceenddate, String serincome ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_SERVICE_TYPE , serviceType);
+        contentValues.put(KEY_CALL_TYPE , callType);
+        contentValues.put(KEY_PRODUCT , productType);
+        contentValues.put(KEY_CUSTOMER_NAME , customerName);
+        contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
+        contentValues.put(KEY_RUNNING_HOUER , houers);
+        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
+        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
+        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_SERVICE_INCOME , serincome);
+        contentValues.put(KEY_IS_SYNCH , "N");
+        contentValues.put(KEY_EDIT_LOG_COUNT , "1");
+        contentValues.put(KEY_IS_EDIT , "N");
+
+        long result = db.insert(TABLE_SERVICE_MANAGER, null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean addPostWarrentyEntry(String productType, String callType, String serviceType, String customerName, String mobile, String houers, String buyingDate) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_SERVICE_TYPE , serviceType);
+        contentValues.put(KEY_CALL_TYPE , callType);
+        contentValues.put(KEY_PRODUCT , productType);
+        contentValues.put(KEY_CUSTOMER_NAME , customerName);
+        contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
+        contentValues.put(KEY_RUNNING_HOUER , houers);
+        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
+
+        contentValues.put(KEY_IS_SYNCH , "N");
+        contentValues.put(KEY_EDIT_LOG_COUNT , "1");
+        contentValues.put(KEY_IS_EDIT , "N");
+
+        long result = db.insert(TABLE_SERVICE_MANAGER, null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
 }

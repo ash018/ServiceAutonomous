@@ -60,6 +60,7 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/instcustomername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="গ্রাহকের নাম" />
@@ -69,6 +70,7 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/instmobilenumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="মোবাইল নাম্বার" />
@@ -78,6 +80,7 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/insthoureofbuy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="ঘণ্টাঃ-" />
@@ -87,8 +90,10 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/instdateofbuy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:hint="ভিজিটের তারিখঃ-" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -123,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="50"
                         android:background="#4CAF50"
-                        android:text="এগিয়ে যান"
+                        android:text="সম্পপন্ন করুন"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold" />
                 </LinearLayout>

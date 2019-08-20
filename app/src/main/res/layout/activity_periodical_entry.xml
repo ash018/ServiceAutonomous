@@ -93,6 +93,7 @@
                         android:id="@+id/instdateofbuy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:hint="সার্ভিস চাওয়ার তারিখ ও সময়" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,6 +104,7 @@
                         android:id="@+id/instdateofinstallation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:hint="সার্ভিস শুরুর তারিখ ও সময়" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -113,6 +115,7 @@
                         android:id="@+id/instdateofendofservice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:hint="সার্ভিস শেষের তারিখ ও সময়" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
