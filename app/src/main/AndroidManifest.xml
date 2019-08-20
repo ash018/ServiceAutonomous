@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostwarrentyEntry"></activity>
+        <activity android:name=".ViewAllServices"></activity>
+        <activity android:name=".PostwarrentyEntry" />
         <activity android:name=".PaidEntry" />
         <activity android:name=".WarrentyEntry" />
         <activity android:name=".PeriodicalEntry" />

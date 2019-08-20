@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ViewAllServices">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -29,15 +29,6 @@
                 android:src="@drawable/ic_menu" />
 
             <ImageView
-                android:id="@+id/upload_to_server"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="86dp"
-                android:src="@drawable/ic_upload" />
-
-            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -51,8 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_download" />
+                android:layout_marginRight="16dp" />
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -60,53 +50,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
-        android:background="@drawable/servicebg"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/homebanner"
-            android:gravity="center"
-            android:padding="18dp"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:gravity="center"
-            android:padding="18dp"></LinearLayout>
-
         <ImageView
             android:id="@+id/imgjobcard"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/btnjobcard"/>
-        <ImageView
-            android:id="@+id/imgjobcardview"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/btnjobcardview" />
+            android:background="@color/selectproductbd" />
 
-        <ImageView
-            android:id="@+id/imgserviceperformance"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/btnserviceperformance" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraingTop_toBottomOf="@+id/toolbar2">
 
-        <ImageView
-            android:id="@+id/imglogout"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/btnlogout" />
+            <TableRow
+                android:background="#9C27B0"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Code"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Amount"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Date"
+                    android:textColor="#FFFFFF" />
+            </TableRow>
+
+        </TableLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
