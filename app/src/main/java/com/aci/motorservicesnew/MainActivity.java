@@ -10,7 +10,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-    private ImageView imgjobcard;
+    private ImageView imgjobcard, imgjobcardview;
     private DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +20,24 @@ public class MainActivity extends AppCompatActivity {
         db.getWritableDatabase();
 
         imgjobcard = (ImageView) findViewById(R.id.imgjobcard);
+        imgjobcardview = (ImageView) findViewById(R.id.imgjobcardview);
+
         imgjobcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent jorori_intent = new Intent(MainActivity.this, SelectProduct.class);
+                //Toast.makeText(MainActivity.this, territory, Toast.LENGTH_LONG).show();
+                //jorori_intent.putExtra("TTYCODE11", territory);
+                jorori_intent.putExtra("Edit", "0");
+                startActivity(jorori_intent);
+                //finish();
+            }
+        });
+
+        imgjobcardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent jorori_intent = new Intent(MainActivity.this, ViewAllServices.class);
                 //Toast.makeText(MainActivity.this, territory, Toast.LENGTH_LONG).show();
                 //jorori_intent.putExtra("TTYCODE11", territory);
                 startActivity(jorori_intent);

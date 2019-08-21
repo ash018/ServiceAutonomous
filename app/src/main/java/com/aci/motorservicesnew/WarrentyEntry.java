@@ -14,6 +14,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.aci.utils.EditServiceRow;
+
 import java.util.Calendar;
 
 public class WarrentyEntry extends AppCompatActivity {
@@ -31,6 +33,9 @@ public class WarrentyEntry extends AppCompatActivity {
     private int mMinute;
     private String date_time = "";
 
+    EditServiceRow row = null;
+    private String isEdit = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,7 @@ public class WarrentyEntry extends AppCompatActivity {
         serviceProduct = srvTypeIntent.getStringExtra("ServiceProduct");
         serviceCall = srvTypeIntent.getStringExtra("ServiceCallType");
         serviceType = srvTypeIntent.getStringExtra("ServiceType");
+        isEdit = srvTypeIntent.getStringExtra("Edit");
 
         instcustomername = (EditText) findViewById(R.id.instcustomername);
         instmobilenumber = (EditText) findViewById(R.id.instmobilenumber);
@@ -52,6 +58,15 @@ public class WarrentyEntry extends AppCompatActivity {
         instdateofinstallation = (EditText) findViewById(R.id.instdateofinstallation);
         instdateofendofservice = (EditText) findViewById(R.id.instdateofendofservice);
 
+        if(isEdit.equalsIgnoreCase("1")){
+            row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
+            instcustomername.setText(row.getKEY_CUSTOMER_NAME());
+            instmobilenumber.setText(row.getKEY_CUSTOMER_MOBILE());
+            insthoureofbuy.setText(row.getKEY_RUNNING_HOUER());
+            instdateofbuy.setText(row.getKEY_BUYING_DATE());
+            instdateofinstallation.setText(row.getKEY_INSTALLAION_DATE());
+            instdateofendofservice.setText(row.getKEY_SERVICE_END_DATE());
+        }
 
         btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
@@ -82,8 +97,31 @@ public class WarrentyEntry extends AppCompatActivity {
         btnprevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent previousActivity = new Intent(WarrentyEntry.this, SelectProduct.class);
-                startActivity(previousActivity);
+                btnprevious.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(isEdit.equalsIgnoreCase("1")){
+                            Intent nextActivity = new Intent(WarrentyEntry.this, ServiceType.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("Edit", "1");
+                            nextActivity.putExtra("IsPrevious", "1");
+                            nextActivity.putExtra("ServiceType", serviceType);
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            startActivity(nextActivity);
+                            finish();
+                        }
+                        if(isEdit.equalsIgnoreCase("0")){
+                            Intent previousActivity = new Intent(WarrentyEntry.this, ServiceType.class);
+                            previousActivity.putExtra("ServiceType", serviceType);
+                            previousActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            previousActivity.putExtra("Edit", "0");
+                            startActivity(previousActivity);
+                            finish();
+                        }
+                    }
+                });
             }
         });
 
@@ -117,13 +155,26 @@ public class WarrentyEntry extends AppCompatActivity {
 
                 }
                 else{
-                    db.addWarrentyEntry(serviceProduct, serviceCall,
-                            serviceType, customerName, mobile,  hours, buyingDate+":00",
-                            installationDate+":00", insServiceEndDate+":00"
-                    );
-                    Intent nextActivity = new Intent(WarrentyEntry.this, MainActivity.class);
-                    startActivity(nextActivity);
-                    finish();
+
+                    if(isEdit.equalsIgnoreCase("1")){
+                        db.updateWarrentyEntry(row, serviceProduct, serviceCall,
+                                serviceType, customerName, mobile,  hours, buyingDate,
+                                installationDate, insServiceEndDate
+                        );
+                        Intent nextActivity = new Intent(WarrentyEntry.this, MainActivity.class);
+                        startActivity(nextActivity);
+                        finish();
+                    }
+                    if(isEdit.equalsIgnoreCase("0")){
+                        db.addWarrentyEntry(serviceProduct, serviceCall,
+                                serviceType, customerName, mobile,  hours, buyingDate,
+                                installationDate, insServiceEndDate
+                        );
+                        Intent nextActivity = new Intent(WarrentyEntry.this, MainActivity.class);
+                        startActivity(nextActivity);
+                        finish();
+                    }
+
                 }
             }
         });

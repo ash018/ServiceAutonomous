@@ -11,13 +11,19 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.aci.utils.EditServiceRow;
+
 public class SelectProduct extends AppCompatActivity {
     private static RadioButton rdotractor, rdopowertiller, rdortransplanter, rdoharvester,rdoriper, rdodiselengine, rdoothers;
     private static RadioGroup radiobtngroupselectproduct;
 
     private static Button btnprevious, btnnext;
 
+
     private int rdBtnVal = 0;
+    EditServiceRow row = null;
+    private String isEdit = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,45 @@ public class SelectProduct extends AppCompatActivity {
         setContentView(R.layout.activity_select_product);
         rdBtnVal = 0;
 
+
+
+        Intent selProIntent = getIntent();
+        isEdit = selProIntent.getStringExtra("Edit");
+
+        if(isEdit.equalsIgnoreCase("1")){
+            row = (EditServiceRow) selProIntent.getSerializableExtra("RowData");
+            String isPrevious = selProIntent.getStringExtra("IsPrevious");
+            try{
+                if(isPrevious.equalsIgnoreCase("1")){
+                    String preSelect  = selProIntent.getStringExtra("ServiceProduct");
+                    rdBtnVal = Integer.valueOf(preSelect);
+                }
+                else{
+                    rdBtnVal = Integer.parseInt(row.getKEY_PRODUCT());
+                }
+
+            }catch(NullPointerException np){
+                rdBtnVal = Integer.parseInt(row.getKEY_PRODUCT());
+                np.printStackTrace();
+            }
+
+        }
+        else{
+            String preSelect = selProIntent.getStringExtra("ServiceProduct");
+            try{
+                if(preSelect.equalsIgnoreCase("")){
+                    rdBtnVal = 0;
+                }
+                else{
+                    rdBtnVal = Integer.valueOf(preSelect);
+                }
+            }
+            catch(NullPointerException np){
+                rdBtnVal = 0;
+                np.printStackTrace();
+            }
+
+        }
         radiobtngroupselectproduct = (RadioGroup) findViewById(R.id.radiobtngroupselectproduct);
 
         rdotractor = (RadioButton) findViewById(R.id.rdotractor);
@@ -35,9 +80,30 @@ public class SelectProduct extends AppCompatActivity {
         rdodiselengine = (RadioButton) findViewById(R.id.rdodiselengine);
         rdoothers = (RadioButton) findViewById(R.id.rdoothers);
 
+        if(rdBtnVal == 1){
+            rdotractor.setChecked(true);
+        }
+        if(rdBtnVal == 2){
+            rdopowertiller.setChecked(true);
+        }
+        if(rdBtnVal == 3){
+            rdortransplanter.setChecked(true);
+        }
+        if(rdBtnVal == 4){
+            rdoharvester.setChecked(true);
+        }
+        if(rdBtnVal == 5){
+            rdoriper.setChecked(true);
+        }
+        if(rdBtnVal == 6){
+            rdodiselengine.setChecked(true);
+        }
+        if(rdBtnVal == 7){
+            rdoothers.setChecked(true);
+        }
+
         btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
-
 
         radiobtngroupselectproduct.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -93,10 +159,20 @@ public class SelectProduct extends AppCompatActivity {
 
                 }
                 else{
-                    System.out.println("===ServiceProduct11===="+rdBtnVal);
-                    Intent nextActivity = new Intent(SelectProduct.this, ServiceCall.class);
-                    nextActivity.putExtra("ServiceProduct", String.valueOf(rdBtnVal));
-                    startActivity(nextActivity);
+                    if(isEdit.equalsIgnoreCase("1")){
+                        Intent nextActivity = new Intent(SelectProduct.this, ServiceCall.class);
+                        nextActivity.putExtra("RowData", row);
+                        nextActivity.putExtra("Edit", "1");
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(rdBtnVal));
+                        startActivity(nextActivity);
+                    }
+                    if(isEdit.equalsIgnoreCase("0")){
+                        Intent nextActivity = new Intent(SelectProduct.this, ServiceCall.class);
+                        nextActivity.putExtra("ServiceProduct", String.valueOf(rdBtnVal));
+                        nextActivity.putExtra("Edit", "0");
+                        startActivity(nextActivity);
+                    }
+
                     //finish();
                 }
 

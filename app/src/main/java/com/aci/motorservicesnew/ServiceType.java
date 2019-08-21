@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.aci.utils.EditServiceRow;
+
 public class ServiceType extends AppCompatActivity {
 
     private static RadioButton rdoinstallation, rdoperiodical, rdowarranty, rdopaid, rdopostwcvisit;
@@ -18,6 +20,9 @@ public class ServiceType extends AppCompatActivity {
     private static Button btnprevious, btnnext;
     private int rdBtnVal = 0;
     private String serviceProduct = "0", serviceCall = "0";
+
+    EditServiceRow row = null;
+    private String isEdit = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,42 @@ public class ServiceType extends AppCompatActivity {
         serviceProduct = srvTypeIntent.getStringExtra("ServiceProduct");
         serviceCall = srvTypeIntent.getStringExtra("ServiceCallType");
 
+        isEdit = srvTypeIntent.getStringExtra("Edit");
+
+
+        if(isEdit.equalsIgnoreCase("1")){
+            row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
+            //rdBtnVal = Integer.parseInt(row.getKEY_SERVICE_TYPE());
+
+            String isPrevious = srvTypeIntent.getStringExtra("IsPrevious");
+            try{
+                if(isPrevious.equalsIgnoreCase("1")){
+                    String preSelect  = srvTypeIntent.getStringExtra("ServiceType");
+                    rdBtnVal = Integer.valueOf(preSelect);
+                }
+                else{
+                    rdBtnVal = Integer.parseInt(row.getKEY_SERVICE_TYPE());
+                }
+            }catch(NullPointerException np){
+                rdBtnVal = Integer.parseInt(row.getKEY_SERVICE_TYPE());
+                np.printStackTrace();
+            }
+        }
+        else{
+            try{
+                String preSelect  = srvTypeIntent.getStringExtra("ServiceType");
+                if(preSelect.equalsIgnoreCase("")){
+                    rdBtnVal = 0;
+                }
+                else{
+                    rdBtnVal = Integer.valueOf(preSelect);
+                }
+            }catch(NullPointerException np){
+                rdBtnVal = 0;
+                np.printStackTrace();
+            }
+        }
+
         radiobtngroup = (RadioGroup) findViewById(R.id.radiobtngroup);
 
         rdoinstallation = (RadioButton) findViewById(R.id.rdoinstallation);
@@ -36,6 +77,22 @@ public class ServiceType extends AppCompatActivity {
         rdowarranty = (RadioButton) findViewById(R.id.rdowarranty);
         rdopaid = (RadioButton) findViewById(R.id.rdopaid);
         rdopostwcvisit = (RadioButton) findViewById(R.id.rdopostwcvisit);
+
+        if(rdBtnVal == 1){
+            rdoinstallation.setChecked(true);
+        }
+        if(rdBtnVal == 2){
+            rdoperiodical.setChecked(true);
+        }
+        if(rdBtnVal == 3){
+            rdowarranty.setChecked(true);
+        }
+        if(rdBtnVal == 4){
+            rdopaid.setChecked(true);
+        }
+        if(rdBtnVal == 5){
+            rdopostwcvisit.setChecked(true);
+        }
 
         btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
@@ -62,6 +119,29 @@ public class ServiceType extends AppCompatActivity {
                 }
             }
         });
+        btnprevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isEdit.equalsIgnoreCase("1")){
+                    Intent nextActivity = new Intent(ServiceType.this, ServiceCall.class);
+                    nextActivity.putExtra("RowData", row);
+                    nextActivity.putExtra("Edit", "1");
+                    nextActivity.putExtra("IsPrevious", "1");
+                    nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                    nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                    startActivity(nextActivity);
+                    finish();
+                }
+                if(isEdit.equalsIgnoreCase("0")){
+                    Intent previousActivity = new Intent(ServiceType.this, ServiceCall.class);
+                    previousActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                    previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                    previousActivity.putExtra("Edit", "0");
+                    startActivity(previousActivity);
+                    finish();
+                }
+            }
+        });
 
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,44 +159,104 @@ public class ServiceType extends AppCompatActivity {
                     alert.show();
                 }
                 else{
-                    if(rdBtnVal == 1){
-                        Intent nextActivity = new Intent(ServiceType.this, InstallationEntry.class);
-                        nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
-                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
-                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
-                        startActivity(nextActivity);
+                    if(isEdit.equalsIgnoreCase("1")){
+                        if(rdBtnVal == 1){
+                            Intent nextActivity = new Intent(ServiceType.this, InstallationEntry.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "1");
+                            startActivity(nextActivity);
+                        }
+                        if(rdBtnVal == 2){
+                            Intent nextActivity = new Intent(ServiceType.this, PeriodicalEntry.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "1");
+                            startActivity(nextActivity);
+                        }
+
+                        if(rdBtnVal == 3){
+                            Intent nextActivity = new Intent(ServiceType.this, WarrentyEntry.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "1");
+                            startActivity(nextActivity);
+                        }
+
+                        if(rdBtnVal == 4){
+                            Intent nextActivity = new Intent(ServiceType.this, PaidEntry.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "1");
+                            startActivity(nextActivity);
+                        }
+
+                        if(rdBtnVal == 5){
+                            Intent nextActivity = new Intent(ServiceType.this, PostwarrentyEntry.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "1");
+                            startActivity(nextActivity);
+                        }
+
                     }
-                    if(rdBtnVal == 2){
-                        Intent nextActivity = new Intent(ServiceType.this, PeriodicalEntry.class);
-                        nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
-                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
-                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
-                        startActivity(nextActivity);
+                    if(isEdit.equalsIgnoreCase("0")){
+                        if(rdBtnVal == 1){
+                            Intent nextActivity = new Intent(ServiceType.this, InstallationEntry.class);
+                            nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "0");
+                            startActivity(nextActivity);
+                        }
+                        if(rdBtnVal == 2){
+                            Intent nextActivity = new Intent(ServiceType.this, PeriodicalEntry.class);
+                            nextActivity.putExtra("ServiceType",String.valueOf(rdBtnVal) );
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "0");
+                            startActivity(nextActivity);
+                        }
+
+                        if(rdBtnVal == 3){
+                            Intent nextActivity = new Intent(ServiceType.this, WarrentyEntry.class);
+                            nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "0");
+                            startActivity(nextActivity);
+                        }
+
+                        if(rdBtnVal == 4){
+                            Intent nextActivity = new Intent(ServiceType.this, PaidEntry.class);
+                            nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "0");
+                            startActivity(nextActivity);
+                        }
+
+                        if(rdBtnVal == 5){
+                            Intent nextActivity = new Intent(ServiceType.this, PostwarrentyEntry.class);
+                            nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            nextActivity.putExtra("Edit", "0");
+                            startActivity(nextActivity);
+                        }
                     }
 
-                    if(rdBtnVal == 3){
-                        Intent nextActivity = new Intent(ServiceType.this, WarrentyEntry.class);
-                        nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
-                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
-                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
-                        startActivity(nextActivity);
-                    }
 
-                    if(rdBtnVal == 4){
-                        Intent nextActivity = new Intent(ServiceType.this, PaidEntry.class);
-                        nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
-                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
-                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
-                        startActivity(nextActivity);
-                    }
-
-                    if(rdBtnVal == 5){
-                        Intent nextActivity = new Intent(ServiceType.this, PostwarrentyEntry.class);
-                        nextActivity.putExtra("ServiceType", String.valueOf(rdBtnVal));
-                        nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
-                        nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
-                        startActivity(nextActivity);
-                    }
                 }
             }
         });
