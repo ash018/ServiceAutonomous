@@ -157,8 +157,8 @@ public class PaidEntry extends AppCompatActivity {
                 else{
                     if(isEdit.equalsIgnoreCase("1")){
                         db.updatePaidEntry(row, serviceProduct, serviceCall,
-                                serviceType, customerName, mobile,  hours, buyingDate+":00",
-                                installationDate+":00", insServiceEndDate+":00", inservice
+                                serviceType, customerName, mobile,  hours, buyingDate,
+                                installationDate, insServiceEndDate, inservice
                         );
                         Intent nextActivity = new Intent(PaidEntry.this, MainActivity.class);
                         startActivity(nextActivity);
@@ -166,8 +166,8 @@ public class PaidEntry extends AppCompatActivity {
                     }
                     if(isEdit.equalsIgnoreCase("0")){
                         db.addPaidEntry(serviceProduct, serviceCall,
-                                serviceType, customerName, mobile,  hours, buyingDate+":00",
-                                installationDate+":00", insServiceEndDate+":00", inservice
+                                serviceType, customerName, mobile,  hours, buyingDate,
+                                installationDate, insServiceEndDate, inservice
                         );
                         Intent nextActivity = new Intent(PaidEntry.this, MainActivity.class);
                         startActivity(nextActivity);

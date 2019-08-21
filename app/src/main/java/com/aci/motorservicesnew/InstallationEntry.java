@@ -149,7 +149,7 @@ public class InstallationEntry extends AppCompatActivity {
                     }
                     if(isEdit.equalsIgnoreCase("0")){
                         db.addInstallationService(serviceProduct, serviceCall,
-                                serviceType, customerName, mobile, buyingDate+":00", hours, installationDate+":00"
+                                serviceType, customerName, mobile, buyingDate, hours, installationDate
                         );
                         Intent nextActivity = new Intent(InstallationEntry.this, MainActivity.class);
                         startActivity(nextActivity);

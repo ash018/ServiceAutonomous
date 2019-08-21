@@ -133,7 +133,7 @@ public class PostwarrentyEntry extends AppCompatActivity {
                 else{
                     if(isEdit.equalsIgnoreCase("1")){
                         db.updatePostWarrentyEntry(row, serviceProduct, serviceCall,
-                                serviceType, customerName, mobile,  hours, buyingDate+":00"
+                                serviceType, customerName, mobile,  hours, buyingDate
                         );
                         Intent nextActivity = new Intent(PostwarrentyEntry.this, MainActivity.class);
                         startActivity(nextActivity);
@@ -141,7 +141,7 @@ public class PostwarrentyEntry extends AppCompatActivity {
                     }
                     if(isEdit.equalsIgnoreCase("0")){
                         db.addPostWarrentyEntry(serviceProduct, serviceCall,
-                                serviceType, customerName, mobile,  hours, buyingDate+":00"
+                                serviceType, customerName, mobile,  hours, buyingDate
                         );
                         Intent nextActivity = new Intent(PostwarrentyEntry.this, MainActivity.class);
                         startActivity(nextActivity);

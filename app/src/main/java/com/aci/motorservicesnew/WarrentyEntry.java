@@ -136,7 +136,6 @@ public class WarrentyEntry extends AppCompatActivity {
                 String installationDate = instdateofinstallation.getText().toString();
                 String insServiceEndDate = instdateofendofservice.getText().toString();
 
-                //System.out.println("customerName==="+customerName+"==mobile=="+mobile+"==buyingDate=="+buyingDate);
                 if(customerName.equalsIgnoreCase("") ||
                         mobile.equalsIgnoreCase("") ||
                         buyingDate.equalsIgnoreCase("") ||

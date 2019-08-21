@@ -151,8 +151,8 @@ public class PeriodicalEntry extends AppCompatActivity {
                 else{
                     if(isEdit.equalsIgnoreCase("1")){
                         db.updatePerodicEntryService(row, serviceProduct, serviceCall,
-                                serviceType, customerName, mobile,  hours, buyingDate+":00",
-                                installationDate+":00", insServiceEndDate+":00"
+                                serviceType, customerName, mobile,  hours, buyingDate,
+                                installationDate, insServiceEndDate
                         );
                         Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
                         startActivity(nextActivity);
@@ -160,21 +160,15 @@ public class PeriodicalEntry extends AppCompatActivity {
                     }
                     if(isEdit.equalsIgnoreCase("0")){
                         db.addPerodicEntryService(serviceProduct, serviceCall,
-                                serviceType, customerName, mobile,  hours, buyingDate+":00",
-                                installationDate+":00", insServiceEndDate+":00"
+                                serviceType, customerName, mobile,  hours, buyingDate,
+                                installationDate, insServiceEndDate
                         );
                         Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
                         startActivity(nextActivity);
                         finish();
                     }
 
-                    /*db.addPerodicEntryService(serviceProduct, serviceCall,
-                            serviceType, customerName, mobile,  hours, buyingDate+":00",
-                            installationDate+":00", insServiceEndDate+":00"
-                    );
-                    Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
-                    startActivity(nextActivity);
-                    finish();*/
+
                 }
             }
         });
