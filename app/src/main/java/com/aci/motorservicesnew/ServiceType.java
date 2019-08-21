@@ -33,9 +33,7 @@ public class ServiceType extends AppCompatActivity {
         Intent srvTypeIntent = getIntent();
         serviceProduct = srvTypeIntent.getStringExtra("ServiceProduct");
         serviceCall = srvTypeIntent.getStringExtra("ServiceCallType");
-
         isEdit = srvTypeIntent.getStringExtra("Edit");
-
 
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
