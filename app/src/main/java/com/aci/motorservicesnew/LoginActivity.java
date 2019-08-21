@@ -1,9 +1,11 @@
 package com.aci.motorservicesnew;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -48,15 +50,24 @@ public class LoginActivity extends AppCompatActivity {
                 String password = txtPassword.getText().toString().trim();
 
                 if (email.equalsIgnoreCase("") && password.equalsIgnoreCase("")) {
-                    String message = "Please Give All Input ";
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("আপনার UserId এবং Password সঠিক ভাবে দিন।")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+
                 } else {
                     checkLogin(email, password);
                 }
             }
         });
     }
-
 
     private void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
@@ -97,8 +108,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     } else {
-                        String statusCode = jObj.getString("message");
-                        Toast.makeText(getApplicationContext(), "ERROR IN LOGIN", Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setMessage("আপনার UserId অথবা Password ভুল হয়েছে। আবার চেষ্টা করুন।")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                 } catch (JSONException e) {
                     // JSON error

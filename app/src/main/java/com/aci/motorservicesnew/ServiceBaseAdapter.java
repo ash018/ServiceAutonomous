@@ -46,25 +46,6 @@ public class ServiceBaseAdapter extends ArrayAdapter<ServiceRow> {
             holder.textCustomerMobile = (TextView) view.findViewById(R.id.amountTV);
             holder.textCreateDate = (TextView) view.findViewById(R.id.dateTV);
 
-			/*holder.imgadd.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					int pqty = 0;
-					if (!holder.prodqnty.getText().toString()
-							.equalsIgnoreCase("")) {
-						pqty = Integer.parseInt(holder.prodqnty.getText()
-								.toString());
-					}
-					pqty++;
-
-					holder.prodqnty.setText("" + pqty);
-
-					Products pros = (Products) holder.prodqnty.getTag();
-					pros.setQuantity(pqty);
-				}
-			});*/
-
-
             holder.textSL.setTag(ProductList.get(position));
             view.setTag(holder);
         } else {
@@ -76,7 +57,8 @@ public class ServiceBaseAdapter extends ArrayAdapter<ServiceRow> {
         ServiceRow prod = (ServiceRow) holder.textSL.getTag();
 
         if(prod.getIsSynch().equalsIgnoreCase("Y") ){
-            view.setBackgroundColor(0xFFFF0000);
+            //view.setBackgroundColor(0xFFFF0000);
+            view.setBackgroundColor(Color.parseColor("#00e5ff"));
         }
 
         if(prod.getIsSynch().equalsIgnoreCase("N")){
