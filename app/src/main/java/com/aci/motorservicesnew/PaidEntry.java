@@ -14,6 +14,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.aci.utils.EditServiceRow;
+
 import java.util.Calendar;
 
 public class PaidEntry extends AppCompatActivity {
@@ -30,6 +32,9 @@ public class PaidEntry extends AppCompatActivity {
     private int mMinute;
     private String date_time = "";
 
+    EditServiceRow row = null;
+    private String isEdit = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,7 @@ public class PaidEntry extends AppCompatActivity {
         serviceProduct = srvTypeIntent.getStringExtra("ServiceProduct");
         serviceCall = srvTypeIntent.getStringExtra("ServiceCallType");
         serviceType = srvTypeIntent.getStringExtra("ServiceType");
+        isEdit = srvTypeIntent.getStringExtra("Edit");
 
         instcustomername = (EditText) findViewById(R.id.instcustomername);
         instmobilenumber = (EditText) findViewById(R.id.instmobilenumber);
@@ -50,6 +56,17 @@ public class PaidEntry extends AppCompatActivity {
         instdateofinstallation = (EditText) findViewById(R.id.instdateofinstallation);
         instdateofendofservice = (EditText) findViewById(R.id.instdateofendofservice);
         inserviceincome = (EditText) findViewById(R.id.inserviceincome);
+
+        if(isEdit.equalsIgnoreCase("1")){
+            row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
+            instcustomername.setText(row.getKEY_CUSTOMER_NAME());
+            instmobilenumber.setText(row.getKEY_CUSTOMER_MOBILE());
+            insthoureofbuy.setText(row.getKEY_RUNNING_HOUER());
+            instdateofbuy.setText(row.getKEY_BUYING_DATE());
+            instdateofinstallation.setText(row.getKEY_INSTALLAION_DATE());
+            instdateofendofservice.setText(row.getKEY_SERVICE_END_DATE());
+            inserviceincome.setText(row.getKEY_SERVICE_INCOME());
+        }
 
         btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
@@ -79,8 +96,31 @@ public class PaidEntry extends AppCompatActivity {
         btnprevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent previousActivity = new Intent(PaidEntry.this, SelectProduct.class);
-                startActivity(previousActivity);
+                btnprevious.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(isEdit.equalsIgnoreCase("1")){
+                            Intent nextActivity = new Intent(PaidEntry.this, ServiceType.class);
+                            nextActivity.putExtra("RowData", row);
+                            nextActivity.putExtra("Edit", "1");
+                            nextActivity.putExtra("IsPrevious", "1");
+                            nextActivity.putExtra("ServiceType", serviceType);
+                            nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            startActivity(nextActivity);
+                            finish();
+                        }
+                        if(isEdit.equalsIgnoreCase("0")){
+                            Intent previousActivity = new Intent(PaidEntry.this, ServiceType.class);
+                            previousActivity.putExtra("ServiceType", serviceType);
+                            previousActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                            previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            previousActivity.putExtra("Edit", "0");
+                            startActivity(previousActivity);
+                            finish();
+                        }
+                    }
+                });
             }
         });
 
@@ -97,7 +137,6 @@ public class PaidEntry extends AppCompatActivity {
 
                 String inservice = inserviceincome.getText().toString();
 
-                //System.out.println("customerName==="+customerName+"==mobile=="+mobile+"==buyingDate=="+buyingDate);
                 if(customerName.equalsIgnoreCase("") ||
                         mobile.equalsIgnoreCase("") ||
                         buyingDate.equalsIgnoreCase("") ||
@@ -114,16 +153,26 @@ public class PaidEntry extends AppCompatActivity {
                             });
                     AlertDialog alert = builder.create();
                     alert.show();
-
                 }
                 else{
-                    db.addPaidEntry(serviceProduct, serviceCall,
-                            serviceType, customerName, mobile,  hours, buyingDate+":00",
-                            installationDate+":00", insServiceEndDate+":00", inservice
-                    );
-                    Intent nextActivity = new Intent(PaidEntry.this, MainActivity.class);
-                    startActivity(nextActivity);
-                    finish();
+                    if(isEdit.equalsIgnoreCase("1")){
+                        db.updatePaidEntry(row, serviceProduct, serviceCall,
+                                serviceType, customerName, mobile,  hours, buyingDate+":00",
+                                installationDate+":00", insServiceEndDate+":00", inservice
+                        );
+                        Intent nextActivity = new Intent(PaidEntry.this, MainActivity.class);
+                        startActivity(nextActivity);
+                        finish();
+                    }
+                    if(isEdit.equalsIgnoreCase("0")){
+                        db.addPaidEntry(serviceProduct, serviceCall,
+                                serviceType, customerName, mobile,  hours, buyingDate+":00",
+                                installationDate+":00", insServiceEndDate+":00", inservice
+                        );
+                        Intent nextActivity = new Intent(PaidEntry.this, MainActivity.class);
+                        startActivity(nextActivity);
+                        finish();
+                    }
                 }
             }
         });

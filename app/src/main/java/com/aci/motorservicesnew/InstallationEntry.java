@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.aci.utils.EditServiceRow;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +35,9 @@ public class InstallationEntry extends AppCompatActivity {
     private int mMinute;
     private String date_time = "";
 
+    EditServiceRow row = null;
+    private String isEdit = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +51,26 @@ public class InstallationEntry extends AppCompatActivity {
         serviceCall = srvTypeIntent.getStringExtra("ServiceCallType");
         serviceType = srvTypeIntent.getStringExtra("ServiceType");
 
+        isEdit = srvTypeIntent.getStringExtra("Edit");
+
         instcustomername = (EditText) findViewById(R.id.instcustomername);
         instmobilenumber = (EditText) findViewById(R.id.instmobilenumber);
         instdateofbuy = (EditText) findViewById(R.id.instdateofbuy);
         insthoureofbuy = (EditText) findViewById(R.id.insthoureofbuy);
         instdateofinstallation = (EditText) findViewById(R.id.instdateofinstallation);
 
+        if(isEdit.equalsIgnoreCase("1")){
+            row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
+            instcustomername.setText(row.getKEY_CUSTOMER_NAME());
+            instmobilenumber.setText(row.getKEY_CUSTOMER_MOBILE());
+            instdateofbuy.setText(row.getKEY_BUYING_DATE());
+            insthoureofbuy.setText(row.getKEY_RUNNING_HOUER());
+            instdateofinstallation.setText(row.getKEY_INSTALLAION_DATE());
+        }
+
+
         btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
-
-
 
         instdateofbuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +90,26 @@ public class InstallationEntry extends AppCompatActivity {
         btnprevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent previousActivity = new Intent(InstallationEntry.this, SelectProduct.class);
-                startActivity(previousActivity);
+                if(isEdit.equalsIgnoreCase("1")){
+                    Intent nextActivity = new Intent(InstallationEntry.this, ServiceType.class);
+                    nextActivity.putExtra("RowData", row);
+                    nextActivity.putExtra("Edit", "1");
+                    nextActivity.putExtra("IsPrevious", "1");
+                    nextActivity.putExtra("ServiceType", serviceType);
+                    nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                    nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                    startActivity(nextActivity);
+                    finish();
+                }
+                if(isEdit.equalsIgnoreCase("0")){
+                    Intent previousActivity = new Intent(InstallationEntry.this, ServiceType.class);
+                    previousActivity.putExtra("ServiceType", serviceType);
+                    previousActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
+                    previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                    previousActivity.putExtra("Edit", "0");
+                    startActivity(previousActivity);
+                    finish();
+                }
             }
         });
 
@@ -106,13 +139,22 @@ public class InstallationEntry extends AppCompatActivity {
 
                 }
                 else{
-                    System.out.println("serviceProduct=="+ serviceProduct + " == "+serviceCall + "=="+serviceType);
-                    db.addInstallationService(serviceProduct, serviceCall,
-                            serviceType, customerName, mobile, buyingDate+":00", hours, installationDate+":00"
-                    );
-                    Intent nextActivity = new Intent(InstallationEntry.this, MainActivity.class);
-                    startActivity(nextActivity);
-                    finish();
+                    if(isEdit.equalsIgnoreCase("1")){
+                        db.updateInstallationService(row, serviceProduct, serviceCall,
+                                serviceType, customerName, mobile, buyingDate, hours, installationDate
+                        );
+                        Intent nextActivity = new Intent(InstallationEntry.this, MainActivity.class);
+                        startActivity(nextActivity);
+                        finish();
+                    }
+                    if(isEdit.equalsIgnoreCase("0")){
+                        db.addInstallationService(serviceProduct, serviceCall,
+                                serviceType, customerName, mobile, buyingDate+":00", hours, installationDate+":00"
+                        );
+                        Intent nextActivity = new Intent(InstallationEntry.this, MainActivity.class);
+                        startActivity(nextActivity);
+                        finish();
+                    }
                 }
             }
         });
