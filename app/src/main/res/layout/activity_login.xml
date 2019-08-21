@@ -24,7 +24,7 @@
             android:layout_marginTop="65dp"
             android:text="LOGIN"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#37577C"
+            android:textColor="#FFFFFF"
             android:textSize="60sp"
             android:textStyle="bold" />
 
@@ -39,9 +39,10 @@
             android:layout_marginRight="20dp"
             android:drawableLeft="@drawable/ic_account"
             android:hint="  Enter Staff-ID"
-            android:textColor="#2C3E50"
+            android:textColor="#FFFFFF"
             android:textColorHint="#999999"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/txtPassword"
@@ -53,9 +54,10 @@
             android:ems="10"
             android:hint=" Enter Your Passwrod"
             android:inputType="textPassword"
-            android:textColor="#2C3E50"
+            android:textColor="#FFFFFF"
             android:textColorHint="#999999"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnSignin"
