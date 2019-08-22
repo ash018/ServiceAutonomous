@@ -17,14 +17,18 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.aci.utils.EditServiceRow;
+import com.aci.utils.SynchDataRow;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.Format;
@@ -34,13 +38,14 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private String url_all_kiosk = "http://192.168.101.121:8000/genericservice/api/v0/manageservice/";
+    private String url_all_kiosk = " http://mis.digital:7779/genericservice/api/v0/manageservice/";
+    private String url_download_customer = "http://mis.digital:7779/genericservice/api/v0/getuserservice/";
+
     private ImageView imgjobcard, imgjobcardview, imglogout, upload_to_server;
     private DatabaseHelper db;
     private static String userId = "";
 
     private ProgressDialog pDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(getApplicationContext());
         db.getWritableDatabase();
-
 
         SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
         userId = sp.getString("UserId", "TestXXXX");
@@ -67,17 +71,33 @@ public class MainActivity extends AppCompatActivity {
         imglogout = (ImageView) findViewById(R.id.imglogout);
         upload_to_server = (ImageView) findViewById(R.id.upload_to_server);
 
+        if(!db.isNeedSychForUpdateLocalDB()){
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if(cm.getActiveNetworkInfo() == null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("আপানর ইন্টারনেট সংযোগ On করুন।")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+            else{
+                downloadCustomerData(userId);
+            }
+        }
+
         if(db.isAnyDataForSynch()){
             String uri = "@drawable/ic_uploadto_server_green";
             int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-
             Drawable res = getResources().getDrawable(imageResource);
             upload_to_server.setImageDrawable(res);
         }
         else{
             String uri = "@drawable/ic_upload";
             int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-
             Drawable res = getResources().getDrawable(imageResource);
             upload_to_server.setImageDrawable(res);
         }
@@ -100,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                     List<EditServiceRow> recvRow = db.getAllDataToSynch();
                     Gson gson = new Gson();
                     String json = gson.toJson(recvRow);
-                    //System.out.println("======"+ json);
 
                     int[] recIds = new int[recvRow.size()];
 
@@ -111,10 +130,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     //db.updateAllSynStatus(recIds);
-                    System.out.println("UserId==="+userId);
+                    //System.out.println("UserId==="+userId);
                     sendDataToSynch(userId, json,recvRow);
-
-
                 }
             }
         });
@@ -148,10 +165,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sendDataToSynch(String userId, String dataJson, final List<EditServiceRow> serviceRowList
-                           /*String captureJson, String releaseJson,
-                           final List<RecoveryRow> recvRObjList, final List<ProjectionRow> projectObjList,
-                           final List<CaptureRow> captureObjList, final List<ReleaseRow> releaseObjList*/) {
+    private void sendDataToSynch(String userId, String dataJson, final List<EditServiceRow> serviceRowList) {
         String tag_string_req = "req_login";
 
         pDialog.setMessage("Sending to server ...");
@@ -163,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
         params.put("UserId", userId);
         params.put("Data", dataJson.toString());
 
-        //System.out.println("========="+params );
-        //System.out.println("========="+userId );
-        //System.out.println("========="+dataJson.toString() );
-
         String url = url_all_kiosk;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST, url, new JSONObject(params),
@@ -174,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         int[] recIds = new int[serviceRowList.size()];
-                        System.out.println("==============="+jsonObject.toString());
+                        //System.out.println("==============="+jsonObject.toString());
 
                         int k = 0;
                         for (EditServiceRow ro : serviceRowList) {
@@ -183,13 +193,13 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         db.updateAllSynStatus(recIds);
+
                         String uri = "@drawable/ic_upload";
                         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-
                         Drawable res = getResources().getDrawable(imageResource);
                         upload_to_server.setImageDrawable(res);
+
                         hideDialog();
-                        //System.out.println("---this is a test-->" + jsonObject.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -204,6 +214,116 @@ public class MainActivity extends AppCompatActivity {
         jsonObjectRequest.setShouldCache(false);
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
+
+    private void downloadCustomerData(final String userId) {
+        String tag_string_req = "req_download_data";
+        pDialog.setMessage("Sync App Data");
+        showDialog();
+        RequestQueue queue = Volley.newRequestQueue(this);
+        List<Map<String, String>> listMap = new ArrayList<Map<String, String>>();
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("UserId", userId);
+
+        String url = url_download_customer;
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                url_download_customer, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    String status = jObj.getString("StatusCode");
+                    String StatusMessage = jObj.getString("StatusMessage");
+                    //Log.d("StatusMessage-->",StatusMessage);
+                    //System.out.println("=====StatusMessage:" + StatusMessage);
+                    JSONArray statusMessageArray = new JSONArray(StatusMessage);
+                    List<SynchDataRow> myCustomerList = new ArrayList<SynchDataRow>();
+                    db = new DatabaseHelper(getApplicationContext());
+                    db.getWritableDatabase();
+                    for (int i = 0; i < statusMessageArray.length(); i++) {
+
+                        String DateOfInstallation = statusMessageArray.getJSONObject(i).getString("DateOfInstallation");
+                        //String UserId_id = statusMessageArray.getJSONObject(i).getString("UserId_id");
+                        String VisitDate = statusMessageArray.getJSONObject(i).getString("VisitDate");
+                        String ServiceIncome = String.valueOf(statusMessageArray.getJSONObject(i).getInt("ServiceIncome"));
+                        String ServiceEndDate = statusMessageArray.getJSONObject(i).getString("ServiceEndDate");
+
+                        String ServerUpdateDateTime = statusMessageArray.getJSONObject(i).getString("ServerUpdateDateTime");
+                        String TractorPurchaseDate = statusMessageArray.getJSONObject(i).getString("TractorPurchaseDate");
+                        String HoursProvided = String.valueOf(statusMessageArray.getJSONObject(i).getInt("HoursProvided"));
+                        String ProductId_id = String.valueOf(statusMessageArray.getJSONObject(i).getInt("ProductId_id"));
+
+                        String CategoryId_id = String.valueOf(statusMessageArray.getJSONObject(i).getInt("CategoryId_id"));
+                        String CustomerName = statusMessageArray.getJSONObject(i).getString("CustomerName");
+                        String MobileLogCount = String.valueOf(statusMessageArray.getJSONObject(i).getInt("MobileLogCount"));
+                        String ServiceStartDate = statusMessageArray.getJSONObject(i).getString("ServiceStartDate");
+
+                        String MobileCreatedDT = statusMessageArray.getJSONObject(i).getString("MobileCreatedDT");
+                        String MobileEditedDT = statusMessageArray.getJSONObject(i).getString("MobileEditedDT");
+                        String MobileId = statusMessageArray.getJSONObject(i).getString("MobileId");
+                        String ServerInsertDateTime = statusMessageArray.getJSONObject(i).getString("ServerInsertDateTime");
+
+                        //String ServiceDetailsId = statusMessageArray.getJSONObject(i).getString("ServiceDetailsId");
+                        String CallTypeId_id = String.valueOf(statusMessageArray.getJSONObject(i).getInt("CallTypeId_id"));
+                        String ServiceDemandDate = statusMessageArray.getJSONObject(i).getString("ServiceDemandDate");
+                        String Mobile = statusMessageArray.getJSONObject(i).getString("Mobile");
+
+
+                        SynchDataRow myC = new SynchDataRow(DateOfInstallation,
+                                VisitDate,
+                                ServiceIncome,
+                                ServiceEndDate,
+                                ServerUpdateDateTime,
+                                TractorPurchaseDate,
+                                HoursProvided,
+                                ProductId_id,
+                                CategoryId_id,
+                                CustomerName,
+                                MobileLogCount,
+                                ServiceStartDate,
+                                MobileCreatedDT,
+                                MobileEditedDT,
+                                MobileId,
+                                ServerInsertDateTime,
+                                CallTypeId_id,
+                                ServiceDemandDate,
+                                Mobile);
+                        myCustomerList.add(myC);
+                    }
+
+                    db.syncSaveAllData(myCustomerList);
+                    //System.out.println("kallul Inserted the data-->" + status);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("status--200->" + response.trim());
+                hideDialog();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("UserId", userId);
+
+                return params;
+            }
+
+        };
+        strReq.setShouldCache(false);
+        AppController.getInstance().addToRequestQueue(strReq);
+    }
+
 
     private void showDialog() {
         if (!pDialog.isShowing())

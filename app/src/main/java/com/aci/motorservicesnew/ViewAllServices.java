@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class ViewAllServices extends AppCompatActivity {
     private ListView mRecyclerView;
+    private static ImageView mainmenuid;
     //private RecyclerView.Adapter mAdapter;
     private ArrayAdapter<ServiceRow> mAdapter;
 
@@ -34,6 +36,16 @@ public class ViewAllServices extends AppCompatActivity {
         db = new DatabaseHelper(getApplicationContext());
         db.getWritableDatabase();
         myDataset = db.getDataForAdaptor();
+
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ViewAllServices.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
         ServiceBaseAdapter sbAdapter = new ServiceBaseAdapter(this, R.layout.view_services_row, myDataset);
 

@@ -19,17 +19,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewAllServices"></activity>
-        <activity android:name=".PostwarrentyEntry" />
-        <activity android:name=".PaidEntry" />
-        <activity android:name=".WarrentyEntry" />
-        <activity android:name=".PeriodicalEntry" />
-        <activity android:name=".InstallationEntry" />
-        <activity android:name=".ServiceType" />
-        <activity android:name=".ServiceCall" />
-        <activity android:name=".SelectProduct" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ViewAllServices"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PostwarrentyEntry"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PaidEntry"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".WarrentyEntry"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PeriodicalEntry"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstallationEntry"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ServiceType"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ServiceCall"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SelectProduct"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

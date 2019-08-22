@@ -113,10 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                         //ed.putString("Mobile",password);
                         ed.commit();
 
-                        //startService(new Intent(getBaseContext(), RunAfterBootService.class));
-                       /* Intent in = new Intent(getBaseContext(), MainActivity.class);
-                        in.setAction("ACTION_BOOT_COMPLETED");
-                        sendBroadcast(in)*/;
                         Intent jorori_intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(jorori_intent);
                         finish();

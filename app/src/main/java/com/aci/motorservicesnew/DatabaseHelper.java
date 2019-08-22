@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.aci.utils.EditServiceRow;
 import com.aci.utils.ServiceRow;
+import com.aci.utils.SynchDataRow;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -556,5 +557,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             formateDateTime = date;
         }
         return formateDateTime;
+    }
+
+    public boolean syncSaveAllData(List<SynchDataRow> myCustomerList){
+
+        for (SynchDataRow mCus : myCustomerList) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(KEY_ID , mCus.MobileId);
+            contentValues.put(KEY_SERVICE_TYPE , mCus.CategoryId_id);
+            contentValues.put(KEY_CALL_TYPE , mCus.CallTypeId_id);
+            contentValues.put(KEY_PRODUCT , mCus.ProductId_id);
+            contentValues.put(KEY_CUSTOMER_NAME , mCus.CustomerName);
+            contentValues.put(KEY_CUSTOMER_MOBILE , mCus.Mobile);
+            contentValues.put(KEY_BUYING_DATE , mCus.TractorPurchaseDate.replace("T"," "));
+            contentValues.put(KEY_RUNNING_HOUER , mCus.HoursProvided);
+            contentValues.put(KEY_INSTALLAION_DATE , mCus.DateOfInstallation.replace("T"," "));
+
+            contentValues.put(KEY_CALL_SERVICE_DATE , mCus.ServiceDemandDate.replace("T"," "));
+            contentValues.put(KEY_SERVICE_START_DATE , mCus.ServiceStartDate.replace("T"," "));
+            contentValues.put(KEY_SERVICE_END_DATE , mCus.ServiceEndDate.replace("T"," "));
+
+            contentValues.put(KEY_SERVICE_INCOME , mCus.ServiceIncome);
+            contentValues.put(KEY_IS_SYNCH , "Y");
+
+            db.insert(TABLE_SERVICE_MANAGER, null, contentValues);
+        }
+
+        return true;
     }
 }
