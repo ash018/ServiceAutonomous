@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center|center_vertical"
+        android:gravity="center"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
@@ -38,7 +38,7 @@
             android:layout_marginTop="47dp"
             android:layout_marginRight="20dp"
             android:drawableLeft="@drawable/ic_account"
-            android:hint="  Enter Staff-ID"
+            android:hint="  Enter Username"
             android:textColor="#FFFFFF"
             android:textColorHint="#999999"
             android:textSize="20sp"
@@ -52,7 +52,7 @@
             android:layout_alignRight="@+id/txtUsername"
             android:drawableLeft="@drawable/ic_secure_key"
             android:ems="10"
-            android:hint=" Enter Your Passwrod"
+            android:hint=" Enter Passwrod"
             android:inputType="textPassword"
             android:textColor="#FFFFFF"
             android:textColorHint="#999999"
