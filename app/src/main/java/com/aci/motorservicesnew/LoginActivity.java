@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +64,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 } else {
-                    checkLogin(email, password);
+                    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if(cm.getActiveNetworkInfo() == null){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setMessage("আপানর ইন্টারনেট সংযোগ On করুন।")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }else{
+                        checkLogin(email, password);
+                    }
+
                 }
             }
         });

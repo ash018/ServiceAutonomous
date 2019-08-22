@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private String url_all_kiosk = "";
+    private String url_all_kiosk = "http://192.168.101.121:8000/genericservice/api/v0/manageservice/";
     private ImageView imgjobcard, imgjobcardview, imglogout, upload_to_server;
     private DatabaseHelper db;
     private static String userId = "";
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     List<EditServiceRow> recvRow = db.getAllDataToSynch();
                     Gson gson = new Gson();
                     String json = gson.toJson(recvRow);
-                    System.out.println("======"+ json);
+                    //System.out.println("======"+ json);
 
                     int[] recIds = new int[recvRow.size()];
 
@@ -110,14 +110,11 @@ public class MainActivity extends AppCompatActivity {
                         k++;
                     }
 
-                    db.updateAllSynStatus(recIds);
-                    //sendDataToSynch(userId, json,recvRow);
+                    //db.updateAllSynStatus(recIds);
+                    System.out.println("UserId==="+userId);
+                    sendDataToSynch(userId, json,recvRow);
 
-                    String uri = "@drawable/ic_upload";
-                    int imageResource = getResources().getIdentifier(uri, null, getPackageName());
 
-                    Drawable res = getResources().getDrawable(imageResource);
-                    upload_to_server.setImageDrawable(res);
                 }
             }
         });
@@ -163,9 +160,12 @@ public class MainActivity extends AppCompatActivity {
         List<Map<String, String>> listMap = new ArrayList<Map<String, String>>();
 
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("UserId", userId.toString());
+        params.put("UserId", userId);
         params.put("Data", dataJson.toString());
 
+        //System.out.println("========="+params );
+        //System.out.println("========="+userId );
+        //System.out.println("========="+dataJson.toString() );
 
         String url = url_all_kiosk;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         int[] recIds = new int[serviceRowList.size()];
+                        System.out.println("==============="+jsonObject.toString());
 
                         int k = 0;
                         for (EditServiceRow ro : serviceRowList) {
@@ -181,10 +182,14 @@ public class MainActivity extends AppCompatActivity {
                             k++;
                         }
 
+                        db.updateAllSynStatus(recIds);
+                        String uri = "@drawable/ic_upload";
+                        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
 
-                        //db.updateAllSynStatus(recIds, prjIds, capIds, relIds);
+                        Drawable res = getResources().getDrawable(imageResource);
+                        upload_to_server.setImageDrawable(res);
                         hideDialog();
-                        System.out.println("---this is a test-->" + jsonObject.toString());
+                        //System.out.println("---this is a test-->" + jsonObject.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
