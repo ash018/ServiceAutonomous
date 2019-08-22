@@ -1,11 +1,15 @@
 package com.aci.motorservicesnew;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +27,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static String userId = "";
 
     private ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,24 +67,58 @@ public class MainActivity extends AppCompatActivity {
         imglogout = (ImageView) findViewById(R.id.imglogout);
         upload_to_server = (ImageView) findViewById(R.id.upload_to_server);
 
+        if(db.isAnyDataForSynch()){
+            String uri = "@drawable/ic_uploadto_server_green";
+            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+
+            Drawable res = getResources().getDrawable(imageResource);
+            upload_to_server.setImageDrawable(res);
+        }
+        else{
+            String uri = "@drawable/ic_upload";
+            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+
+            Drawable res = getResources().getDrawable(imageResource);
+            upload_to_server.setImageDrawable(res);
+        }
         upload_to_server.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<EditServiceRow> recvRow = db.getAllDataToSynch();
-                Gson gson = new Gson();
-                String json = gson.toJson(recvRow);
-                System.out.println("======"+ json);
-
-                int[] recIds = new int[recvRow.size()];
-
-                int k = 0;
-                for (EditServiceRow ro : recvRow) {
-                    recIds[k] = ro.getKEY_ID();
-                    k++;
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                if(cm.getActiveNetworkInfo() == null){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("আপানর ইন্টারনেট সংযোগ On করুন।")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
+                else {
+                    List<EditServiceRow> recvRow = db.getAllDataToSynch();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(recvRow);
+                    System.out.println("======"+ json);
 
-                db.updateAllSynStatus(recIds);
-                //sendDataToSynch(userId, json,recvRow);
+                    int[] recIds = new int[recvRow.size()];
+
+                    int k = 0;
+                    for (EditServiceRow ro : recvRow) {
+                        recIds[k] = ro.getKEY_ID();
+                        k++;
+                    }
+
+                    db.updateAllSynStatus(recIds);
+                    //sendDataToSynch(userId, json,recvRow);
+
+                    String uri = "@drawable/ic_upload";
+                    int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+
+                    Drawable res = getResources().getDrawable(imageResource);
+                    upload_to_server.setImageDrawable(res);
+                }
             }
         });
 

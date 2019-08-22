@@ -87,9 +87,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_PRODUCT , productType);
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
-        contentValues.put(KEY_BUYING_DATE , buyingDate);
+        contentValues.put(KEY_BUYING_DATE , formatDate(buyingDate));
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_INSTALLAION_DATE , installationDate);
+        contentValues.put(KEY_INSTALLAION_DATE , formatDate(installationDate));
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , "1");
         contentValues.put(KEY_IS_EDIT , "N");
@@ -114,9 +114,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_PRODUCT , productType);
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
-        contentValues.put(KEY_BUYING_DATE , buyingDate);
+        contentValues.put(KEY_BUYING_DATE , formatDate(buyingDate));
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_INSTALLAION_DATE , installationDate);
+        contentValues.put(KEY_INSTALLAION_DATE , formatDate(installationDate));
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , String.valueOf(Integer.parseInt(row.getKEY_EDIT_LOG_COUNT())+1));
         contentValues.put(KEY_IS_EDIT , "Y");
@@ -141,9 +141,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
-        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
-        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
+        contentValues.put(KEY_SERVICE_START_DATE , formatDate(installationDate));
+        contentValues.put(KEY_SERVICE_END_DATE , formatDate(insserviceenddate));
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , "1");
         contentValues.put(KEY_IS_EDIT , "N");
@@ -169,9 +169,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
-        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
-        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
+        contentValues.put(KEY_SERVICE_START_DATE , formatDate(installationDate));
+        contentValues.put(KEY_SERVICE_END_DATE , formatDate(insserviceenddate));
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , String.valueOf(Integer.parseInt(row.getKEY_EDIT_LOG_COUNT())+1));
         contentValues.put(KEY_IS_EDIT , "Y");
@@ -195,9 +195,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
-        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
-        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
+        contentValues.put(KEY_SERVICE_START_DATE , formatDate(installationDate));
+        contentValues.put(KEY_SERVICE_END_DATE , formatDate(insserviceenddate));
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , "1");
         contentValues.put(KEY_IS_EDIT , "N");
@@ -223,9 +223,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
-        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
-        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
+        contentValues.put(KEY_SERVICE_START_DATE , formatDate(installationDate));
+        contentValues.put(KEY_SERVICE_END_DATE , formatDate(insserviceenddate));
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , String.valueOf(Integer.parseInt(row.getKEY_EDIT_LOG_COUNT())+1));
         contentValues.put(KEY_IS_EDIT , "Y");
@@ -249,9 +249,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
-        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
-        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
+        contentValues.put(KEY_SERVICE_START_DATE ,formatDate(installationDate));
+        contentValues.put(KEY_SERVICE_END_DATE , formatDate(insserviceenddate));
         contentValues.put(KEY_SERVICE_INCOME , serincome);
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , "1");
@@ -278,9 +278,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
-        contentValues.put(KEY_SERVICE_START_DATE , installationDate);
-        contentValues.put(KEY_SERVICE_END_DATE , insserviceenddate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
+        contentValues.put(KEY_SERVICE_START_DATE , formatDate(installationDate));
+        contentValues.put(KEY_SERVICE_END_DATE , formatDate(insserviceenddate));
         contentValues.put(KEY_SERVICE_INCOME , serincome);
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , String.valueOf(Integer.parseInt(row.getKEY_EDIT_LOG_COUNT())+1));
@@ -311,7 +311,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
 
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , "1");
@@ -338,7 +338,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_CUSTOMER_NAME , customerName);
         contentValues.put(KEY_CUSTOMER_MOBILE , mobile);
         contentValues.put(KEY_RUNNING_HOUER , houers);
-        contentValues.put(KEY_CALL_SERVICE_DATE , buyingDate);
+        contentValues.put(KEY_CALL_SERVICE_DATE , formatDate(buyingDate));
 
         contentValues.put(KEY_IS_SYNCH , "N");
         contentValues.put(KEY_EDIT_LOG_COUNT , String.valueOf(Integer.parseInt(row.getKEY_EDIT_LOG_COUNT())+1));
@@ -542,4 +542,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public String formatDate(String date){
+        String formateDateTime = "";
+        String fDate = date.split(" ")[0];
+        String time = date.split(" ")[1];
+        String[] tiSize = time.split(":");
+
+        if(tiSize.length == 2){
+            String sDate = tiSize[0]+":"+tiSize[1]+":"+"00";
+            formateDateTime = fDate.split("-")[2]+"-"+fDate.split("-")[1]+"-"+fDate.split("-")[0]+" "+sDate;
+        }
+        else{
+            formateDateTime = date;
+        }
+        return formateDateTime;
+    }
 }

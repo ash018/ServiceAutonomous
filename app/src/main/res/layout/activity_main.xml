@@ -35,7 +35,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="86dp"
-                android:src="@drawable/ic_upload" />
+                android:src="@drawable/ic_upload"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/homebanner"
+            android:background="@drawable/servicelogo"
             android:gravity="center"
             android:padding="18dp"></LinearLayout>
 
