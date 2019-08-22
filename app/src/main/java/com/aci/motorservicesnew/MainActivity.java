@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 List<EditServiceRow> recvRow = db.getAllDataToSynch();
                 Gson gson = new Gson();
                 String json = gson.toJson(recvRow);
-                //System.out.println("======"+ json);
+                System.out.println("======"+ json);
 
                 int[] recIds = new int[recvRow.size()];
 

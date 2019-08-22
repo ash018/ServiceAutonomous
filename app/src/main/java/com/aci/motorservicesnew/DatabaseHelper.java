@@ -58,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_CUSTOMER_NAME + " TEXT, " + KEY_CUSTOMER_MOBILE + " TEXT, " + KEY_BUYING_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "
             + KEY_RUNNING_HOUER +" TEXT, "+ KEY_INSTALLAION_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "
             + KEY_CALL_SERVICE_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_START_DATE + " DATETIME DEFAULT (datetime('now','localtime')),  "
-            + KEY_SERVICE_END_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_INCOME + " TEXT, "
+            + KEY_SERVICE_END_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_INCOME + " TEXT DEFAULT '0', "
             + KEY_VISITED_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "+ KEY_CREATED_AT + " DATETIME DEFAULT (datetime('now','localtime')),"
             + KEY_EDITED_AT + " DATETIME DEFAULT (datetime('now','localtime')));";
 
@@ -443,12 +443,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<EditServiceRow> allRows = new ArrayList<EditServiceRow>();
 
         String selectQuery = "SELECT * FROM " + TABLE_SERVICE_MANAGER + " where is_synch = 'N' order by id asc";
-
         Cursor cursor = db.rawQuery(selectQuery, null);
+
         int i = 1;
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-
                 int KEY_ID = cursor.getInt(cursor.getColumnIndex("id"));
                 String KEY_SERVER_MASTER_ID = cursor.getString(cursor.getColumnIndex("server_id"));
                 String KEY_CREATED_AT = cursor.getString(cursor.getColumnIndex("created_at"));
@@ -505,10 +504,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(KEY_IS_EDIT , "N");
             db.update(TABLE_SERVICE_MANAGER, contentValues, KEY_ID + " = " + recIds[i], null);
         }
-
         return true;
     }
 
+    public boolean isNeedSychForUpdateLocalDB(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String recoveryTblSynchSql = "select count(*) as rCount From " + TABLE_SERVICE_MANAGER+";";
+        Cursor cursorRecoveryTbl = db.rawQuery(recoveryTblSynchSql, null);
+        int recTblRow = 0;
 
+        if (cursorRecoveryTbl.moveToFirst()) {
+            recTblRow =  cursorRecoveryTbl.getInt(0);// EventOperator
+        }
+
+        if (recTblRow > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isAnyDataForSynch(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String recoveryTblSynchSql = "select count(*) as rCount From "+ TABLE_SERVICE_MANAGER+" where " + KEY_IS_SYNCH +" ='N'";
+        Cursor cursorRecoveryTbl = db.rawQuery(recoveryTblSynchSql, null);
+        int recTblRow = 0;
+
+        if (cursorRecoveryTbl.moveToFirst()) {
+            recTblRow =  cursorRecoveryTbl.getInt(0);// EventOperator
+        }
+
+        if (recTblRow > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }

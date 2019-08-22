@@ -60,7 +60,7 @@ public class ServiceAdaptor extends ArrayAdapter<ServiceRow>{
         holder.codeSL.setText(String.valueOf(mDataset.get(position).getId()));
         holder.codeTV.setText(mDataset.get(position).getCustomerName());
         holder.amountTV.setText(mDataset.get(position).getCustomerMobile());
-        holder.dateTV.setText(mDataset.get(position).getEntyDate());
+        holder.dateTV.setText(mDataset.get(position).getEntyDate().split(" ")[0].split("-")[2]+"/"+mDataset.get(position).getEntyDate().split(" ")[0].split("-")[1]+"/"+mDataset.get(position).getEntyDate().split(" ")[0].split("-")[0]);
 
         return rowView;
     }

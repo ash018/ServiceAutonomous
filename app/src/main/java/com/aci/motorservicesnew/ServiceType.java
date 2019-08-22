@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.aci.utils.EditServiceRow;
 
 public class ServiceType extends AppCompatActivity {
-
+    private static ImageView mainmenuid;
     private static RadioButton rdoinstallation, rdoperiodical, rdowarranty, rdopaid, rdopostwcvisit;
     private static RadioGroup radiobtngroup;
     private static Button btnprevious, btnnext;
@@ -68,6 +69,7 @@ public class ServiceType extends AppCompatActivity {
             }
         }
 
+
         radiobtngroup = (RadioGroup) findViewById(R.id.radiobtngroup);
 
         rdoinstallation = (RadioButton) findViewById(R.id.rdoinstallation);
@@ -75,6 +77,16 @@ public class ServiceType extends AppCompatActivity {
         rdowarranty = (RadioButton) findViewById(R.id.rdowarranty);
         rdopaid = (RadioButton) findViewById(R.id.rdopaid);
         rdopostwcvisit = (RadioButton) findViewById(R.id.rdopostwcvisit);
+
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ServiceType.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
         if(rdBtnVal == 1){
             rdoinstallation.setChecked(true);
@@ -253,8 +265,6 @@ public class ServiceType extends AppCompatActivity {
                             startActivity(nextActivity);
                         }
                     }
-
-
                 }
             }
         });

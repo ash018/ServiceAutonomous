@@ -68,7 +68,8 @@ public class ServiceBaseAdapter extends ArrayAdapter<ServiceRow> {
         holder.textSL.setText(String.valueOf(prod.getSl()));
         holder.textCustomerName.setText(prod.getCustomerName());
         holder.textCustomerMobile.setText(prod.getCustomerMobile());
-        holder.textCreateDate.setText(prod.getEntyDate());
+
+        holder.textCreateDate.setText(prod.getEntyDate().split(" ")[0].split("-")[2]+"/"+prod.getEntyDate().split(" ")[0].split("-")[1]+"/"+prod.getEntyDate().split(" ")[0].split("-")[0]);
 
         return view;
     }

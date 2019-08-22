@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 
 import com.aci.utils.EditServiceRow;
@@ -19,7 +20,7 @@ import com.aci.utils.EditServiceRow;
 import java.util.Calendar;
 
 public class PeriodicalEntry extends AppCompatActivity {
-
+    private static ImageView mainmenuid;
     private String serviceProduct = "0", serviceCall = "0", serviceType = "0";
     private EditText instcustomername, instmobilenumber,  insthoureofbuy, instdateofbuy, instdateofinstallation, instdateofendofservice;
     private Button btnprevious, btnnext;
@@ -56,6 +57,16 @@ public class PeriodicalEntry extends AppCompatActivity {
         instdateofbuy = (EditText) findViewById(R.id.instdateofbuy);
         instdateofinstallation = (EditText) findViewById(R.id.instdateofinstallation);
         instdateofendofservice = (EditText) findViewById(R.id.instdateofendofservice);
+
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");

@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    public static String URL_LOGIN = "http://192.168.100.61:7779/genericservice/api/v0/login/";
+    public static String URL_LOGIN = "http://mis.digital:7779/genericservice/api/v0/login/";
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private ProgressDialog pDialog;
