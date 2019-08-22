@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.aci.utils.EditServiceRow;
 
 public class ServiceCall extends AppCompatActivity {
+    private static ImageView mainmenuid;
     private static RadioButton rdotractor, rdopowertiller;
     private static RadioGroup radiobtngroupservicecall;
     private static Button btnprevious, btnnext;
@@ -71,6 +73,16 @@ public class ServiceCall extends AppCompatActivity {
 
         rdotractor = (RadioButton) findViewById(R.id.rdotractor);
         rdopowertiller = (RadioButton) findViewById(R.id.rdopowertiller);
+
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ServiceCall.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
         if(rdBtnVal == 1){
             rdotractor.setChecked(true);

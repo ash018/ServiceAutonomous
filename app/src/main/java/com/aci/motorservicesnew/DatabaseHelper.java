@@ -10,6 +10,7 @@ import android.util.Log;
 import com.aci.utils.EditServiceRow;
 import com.aci.utils.ServiceRow;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_CUSTOMER_NAME + " TEXT, " + KEY_CUSTOMER_MOBILE + " TEXT, " + KEY_BUYING_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "
             + KEY_RUNNING_HOUER +" TEXT, "+ KEY_INSTALLAION_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "
             + KEY_CALL_SERVICE_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_START_DATE + " DATETIME DEFAULT (datetime('now','localtime')),  "
-            + KEY_SERVICE_END_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_INCOME + " TEXT, "
+            + KEY_SERVICE_END_DATE + " DATETIME DEFAULT (datetime('now','localtime')), " + KEY_SERVICE_INCOME + " TEXT DEFAULT '0', "
             + KEY_VISITED_DATE + " DATETIME DEFAULT (datetime('now','localtime')), "+ KEY_CREATED_AT + " DATETIME DEFAULT (datetime('now','localtime')),"
             + KEY_EDITED_AT + " DATETIME DEFAULT (datetime('now','localtime')));";
 
@@ -437,6 +438,108 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return row;
     }
 
+    public List<EditServiceRow> getAllDataToSynch(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<EditServiceRow> allRows = new ArrayList<EditServiceRow>();
 
+        String selectQuery = "SELECT * FROM " + TABLE_SERVICE_MANAGER + " where is_synch = 'N' order by id asc";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        int i = 1;
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                int KEY_ID = cursor.getInt(cursor.getColumnIndex("id"));
+                String KEY_SERVER_MASTER_ID = cursor.getString(cursor.getColumnIndex("server_id"));
+                String KEY_CREATED_AT = cursor.getString(cursor.getColumnIndex("created_at"));
+                String KEY_EDITED_AT = cursor.getString(cursor.getColumnIndex("edited_at"));
+                String KEY_PRODUCT = cursor.getString(cursor.getColumnIndex("product_type"));
+                String KEY_CALL_TYPE = cursor.getString(cursor.getColumnIndex("call_type"));
+                String KEY_SERVICE_TYPE = cursor.getString(cursor.getColumnIndex("service_type"));
+                String KEY_IS_SYNCH = cursor.getString(cursor.getColumnIndex("is_synch"));
+                String KEY_EDIT_LOG_COUNT = cursor.getString(cursor.getColumnIndex("log_count"));
+                String KEY_IS_EDIT = cursor.getString(cursor.getColumnIndex("is_edited"));
+                String KEY_CUSTOMER_NAME = cursor.getString(cursor.getColumnIndex("customer_name"));
+                String KEY_CUSTOMER_MOBILE = cursor.getString(cursor.getColumnIndex("customer_mobile"));
+                String KEY_BUYING_DATE = cursor.getString(cursor.getColumnIndex("buy_date"));
+                String KEY_RUNNING_HOUER = cursor.getString(cursor.getColumnIndex("runnign_houer"));
+                String KEY_INSTALLAION_DATE = cursor.getString(cursor.getColumnIndex("installation_date"));
+                String KEY_CALL_SERVICE_DATE = cursor.getString(cursor.getColumnIndex("service_call_date"));
+                String KEY_SERVICE_START_DATE = cursor.getString(cursor.getColumnIndex("service_start_date"));
+                String KEY_SERVICE_END_DATE = cursor.getString(cursor.getColumnIndex("service_end_date"));
+                String KEY_SERVICE_INCOME = cursor.getString(cursor.getColumnIndex("service_income"));
+                String KEY_VISITED_DATE = cursor.getString(cursor.getColumnIndex("visited_date"));
+
+                EditServiceRow row = new EditServiceRow(KEY_ID,
+                        KEY_SERVER_MASTER_ID,
+                        KEY_CREATED_AT,
+                        KEY_EDITED_AT,
+                        KEY_PRODUCT,
+                        KEY_CALL_TYPE,
+                        KEY_SERVICE_TYPE,
+                        KEY_IS_SYNCH,
+                        KEY_EDIT_LOG_COUNT,
+                        KEY_IS_EDIT,
+                        KEY_CUSTOMER_NAME,
+                        KEY_CUSTOMER_MOBILE,
+                        KEY_BUYING_DATE,
+                        KEY_RUNNING_HOUER,
+                        KEY_INSTALLAION_DATE,
+                        KEY_CALL_SERVICE_DATE,
+                        KEY_SERVICE_START_DATE,
+                        KEY_SERVICE_END_DATE,
+                        KEY_SERVICE_INCOME,
+                        KEY_VISITED_DATE);
+                allRows.add(row);
+                cursor.moveToNext();
+            }
+        }
+        return allRows;
+    }
+
+    public boolean updateAllSynStatus(int[] recIds){
+        for(int i=0; i< recIds.length; i++){
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(KEY_IS_SYNCH , "Y");
+            contentValues.put(KEY_IS_EDIT , "N");
+            db.update(TABLE_SERVICE_MANAGER, contentValues, KEY_ID + " = " + recIds[i], null);
+        }
+        return true;
+    }
+
+    public boolean isNeedSychForUpdateLocalDB(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String recoveryTblSynchSql = "select count(*) as rCount From " + TABLE_SERVICE_MANAGER+";";
+        Cursor cursorRecoveryTbl = db.rawQuery(recoveryTblSynchSql, null);
+        int recTblRow = 0;
+
+        if (cursorRecoveryTbl.moveToFirst()) {
+            recTblRow =  cursorRecoveryTbl.getInt(0);// EventOperator
+        }
+
+        if (recTblRow > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isAnyDataForSynch(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String recoveryTblSynchSql = "select count(*) as rCount From "+ TABLE_SERVICE_MANAGER+" where " + KEY_IS_SYNCH +" ='N'";
+        Cursor cursorRecoveryTbl = db.rawQuery(recoveryTblSynchSql, null);
+        int recTblRow = 0;
+
+        if (cursorRecoveryTbl.moveToFirst()) {
+            recTblRow =  cursorRecoveryTbl.getInt(0);// EventOperator
+        }
+
+        if (recTblRow > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }
