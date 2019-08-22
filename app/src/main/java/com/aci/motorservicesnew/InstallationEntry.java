@@ -75,6 +75,8 @@ public class InstallationEntry extends AppCompatActivity {
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
             instcustomername.setText(row.getKEY_CUSTOMER_NAME());
             instmobilenumber.setText(row.getKEY_CUSTOMER_MOBILE());
+            ///instmobilenumber = "+88" + instmobilenumber;
+
             instdateofbuy.setText(row.getKEY_BUYING_DATE());
             insthoureofbuy.setText(row.getKEY_RUNNING_HOUER());
             instdateofinstallation.setText(row.getKEY_INSTALLAION_DATE());
