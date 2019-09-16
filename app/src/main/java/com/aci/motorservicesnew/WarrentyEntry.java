@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 
 import com.aci.utils.EditServiceRow;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class WarrentyEntry extends AppCompatActivity {
@@ -148,7 +149,15 @@ public class WarrentyEntry extends AppCompatActivity {
                 String mobile = instmobilenumber.getText().toString();
                 String hours = insthoureofbuy.getText().toString();
 
-                String buyingDate = instdateofbuy.getText().toString();
+                String buyingDate = "";
+                if (serviceCall.equals("2")){
+                    Calendar calendar = Calendar.getInstance(); // gets current instance of the calendar
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    buyingDate = formatter.format(calendar.getTime());
+                }
+                else{
+                    buyingDate = instdateofbuy.getText().toString();
+                }
                 String installationDate = instdateofinstallation.getText().toString();
                 String insServiceEndDate = instdateofendofservice.getText().toString();
 

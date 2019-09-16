@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 
 import com.aci.utils.EditServiceRow;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class PostwarrentyEntry extends AppCompatActivity {
@@ -127,7 +128,15 @@ public class PostwarrentyEntry extends AppCompatActivity {
                 String mobile = instmobilenumber.getText().toString();
                 String hours = insthoureofbuy.getText().toString();
 
-                String buyingDate = instdateofbuy.getText().toString();
+                String buyingDate = "";
+                if (serviceCall.equals("2")){
+                    Calendar calendar = Calendar.getInstance(); // gets current instance of the calendar
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    buyingDate = formatter.format(calendar.getTime());
+                }
+                else{
+                    buyingDate = instdateofbuy.getText().toString();
+                }
 
 
                 //System.out.println("customerName==="+customerName+"==mobile=="+mobile+"==buyingDate=="+buyingDate);

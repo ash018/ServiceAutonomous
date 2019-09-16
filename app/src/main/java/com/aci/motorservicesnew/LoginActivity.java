@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSignin;
     private ProgressDialog pDialog;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mGetReference = mDatabase.getReference();
+    private DatabaseReference mGetReference = mDatabase.getReference("url");
 //    public static String URL_LOGIN = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
 
-
-        mGetReference.child("url").child("5XNRqCOHUCeSpRMiZ2tU").addListenerForSingleValueEvent(
+        Log.d("mGetReference",String.valueOf(mGetReference.getClass()));
+        mGetReference.addListenerForSingleValueEvent(
 
             new ValueEventListener() {
+
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Url url = dataSnapshot.getValue(Url.class);
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+
         });
 
 //        mGetReference.addValueEventListener(new ValueEventListener() {
