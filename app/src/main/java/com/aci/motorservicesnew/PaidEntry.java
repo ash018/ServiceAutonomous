@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -69,12 +70,22 @@ public class PaidEntry extends AppCompatActivity {
             }
         });
 
+        if(serviceCall.equals("2")){
+            instdateofbuy.setVisibility(View.GONE);
+        }
+
+
+
+        Log.d("serviceCall",serviceCall);
+
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
             instcustomername.setText(row.getKEY_CUSTOMER_NAME());
             instmobilenumber.setText(row.getKEY_CUSTOMER_MOBILE());
             insthoureofbuy.setText(row.getKEY_RUNNING_HOUER());
+
             instdateofbuy.setText(row.getKEY_BUYING_DATE());
+
             instdateofinstallation.setText(row.getKEY_INSTALLAION_DATE());
             instdateofendofservice.setText(row.getKEY_SERVICE_END_DATE());
             inserviceincome.setText(row.getKEY_SERVICE_INCOME());

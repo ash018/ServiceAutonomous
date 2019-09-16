@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectProduct">
+    tools:context=".ServicePerformance">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu" />
+
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -56,7 +57,7 @@
                 android:layout_marginBottom="18dp"
                 android:gravity="center|center_vertical"
                 android:paddingTop="5dp"
-                android:text="প্রোডাক্ট বাছাই করুন"
+                android:text="সার্ভিস"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
@@ -67,72 +68,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentPadding="12dp">
-            <ScrollView
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="60dp">
-                    <RadioGroup
-                        android:id="@+id/radiobtngroupselectproduct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="30dp">
+
+                <RadioGroup
+                    android:id="@+id/radiobtngroupservicecall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <RadioButton
-                        android:id="@+id/rdotractor"
+                        android:id="@+id/serviceRatio"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="ট্রাক্টর"
+                        android:text="সার্ভিস রেশিও"
                         android:textSize="24sp" />
 
                     <RadioButton
-                        android:id="@+id/rdopowertiller"
+                        android:id="@+id/customerSatisfaction"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="পাওয়ার টিলার"
+                        android:text="গ্রাহক সন্তুষ্টি"
                         android:textSize="24sp" />
 
                     <RadioButton
-                        android:id="@+id/rdortransplanter"
+                        android:id="@+id/sixHourService"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="রাইস ট্রান্সপ্লান্টার"
+                        android:text="ছয় ঘণ্টার সার্ভিস"
                         android:textSize="24sp" />
 
-                    <RadioButton
-                        android:id="@+id/rdoharvester"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="হারভেস্টার"
-                        android:textSize="24sp" />
+                </RadioGroup>
 
-                    <RadioButton
-                        android:id="@+id/rdoriper"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="রিপার"
-                        android:textSize="24sp" />
-
-                    <RadioButton
-                        android:id="@+id/rdodiselengine"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="ডিজেল ইঞ্জিন "
-                        android:textSize="24sp" />
-
-                    <RadioButton
-                        android:id="@+id/rdoothers"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="অন্যান্য"
-                        android:textSize="24sp" />
-                    </RadioGroup>
-                </LinearLayout>
-            </ScrollView>
-
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -168,4 +140,5 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

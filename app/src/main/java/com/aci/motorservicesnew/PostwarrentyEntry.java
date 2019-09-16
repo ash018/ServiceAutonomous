@@ -66,6 +66,10 @@ public class PostwarrentyEntry extends AppCompatActivity {
             }
         });
 
+        if(serviceCall.equals("2")){
+            instdateofbuy.setVisibility(View.GONE);
+        }
+
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
             instcustomername.setText(row.getKEY_CUSTOMER_NAME());

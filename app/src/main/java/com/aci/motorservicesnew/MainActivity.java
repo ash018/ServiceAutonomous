@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private String url_all_kiosk = " http://mis.digital:7779/genericservice/api/v0/manageservice/";
     private String url_download_customer = "http://mis.digital:7779/genericservice/api/v0/getuserservice/";
 
-    private ImageView imgjobcard, imgjobcardview, imglogout, upload_to_server;
+    private ImageView imgjobcard, imgjobcardview, imglogout, imgserviceperformance, upload_to_server;
     private DatabaseHelper db;
     private static String userId = "";
 
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         imgjobcard = (ImageView) findViewById(R.id.imgjobcard);
         imgjobcardview = (ImageView) findViewById(R.id.imgjobcardview);
         imglogout = (ImageView) findViewById(R.id.imglogout);
+        imgserviceperformance = (ImageView) findViewById(R.id.imgserviceperformance);
         upload_to_server = (ImageView) findViewById(R.id.upload_to_server);
 
         if(!db.isNeedSychForUpdateLocalDB()){
@@ -149,6 +150,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent jorori_intent = new Intent(MainActivity.this, ViewAllServices.class);
+                startActivity(jorori_intent);
+            }
+        });
+
+        imgserviceperformance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent jorori_intent = new Intent(MainActivity.this, ServicePerformance.class);
+                jorori_intent.putExtra("UserId",userId);
                 startActivity(jorori_intent);
             }
         });

@@ -59,6 +59,11 @@ public class WarrentyEntry extends AppCompatActivity {
         instdateofinstallation = (EditText) findViewById(R.id.instdateofinstallation);
         instdateofendofservice = (EditText) findViewById(R.id.instdateofendofservice);
 
+        if(serviceCall.equals("2")){
+            instdateofbuy.setVisibility(View.GONE);
+        }
+
+
         mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
         mainmenuid.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".AppController"
@@ -19,30 +19,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewAllServices"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PostwarrentyEntry"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PaidEntry"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WarrentyEntry"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PeriodicalEntry"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".InstallationEntry"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ServiceType"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ServiceCall"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SelectProduct"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".SixHourActivity"></activity>
+        <activity android:name=".CustomerSatisfaction" />
+        <activity android:name=".ServiceRatio" />
+        <activity android:name=".ServicePerformance" />
+        <activity android:name=".ViewAllServices" />
+        <activity
+            android:name=".PostwarrentyEntry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PaidEntry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WarrentyEntry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PeriodicalEntry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InstallationEntry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ServiceType"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ServiceCall"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SelectProduct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
