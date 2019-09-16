@@ -158,7 +158,7 @@ public class PaidEntry extends AppCompatActivity {
                 String buyingDate = "";
                 if (serviceCall.equals("2")){
                     Calendar calendar = Calendar.getInstance(); // gets current instance of the calendar
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     buyingDate = formatter.format(calendar.getTime());
                 }
                 else{
