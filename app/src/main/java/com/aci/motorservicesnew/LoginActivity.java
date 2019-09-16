@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mGetReference = mDatabase.getReference("url");
 //    public static String URL_LOGIN = "";
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,24 +55,34 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
 
-        Log.d("mGetReference",String.valueOf(mGetReference.getClass()));
-        mGetReference.addListenerForSingleValueEvent(
+        DatabaseReference reference = mDatabase.getReference();
+        Log.d("childSnapshot",String.valueOf(reference.getPath()));
 
-            new ValueEventListener() {
 
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Url url = dataSnapshot.getValue(Url.class);
-                    Log.wtf("TAG",url.LOGIN_URL);
-                    URL_LOGIN  = url.LOGIN_URL;
+
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // dataSnapshot value will be Matematik, {ahmetozrahat=50, nihatkeklik=50}
+                // because it is indeed the value we need
+
+                // But you want key value pair to be added to your stats
+                // So we can just loop through the values
+
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+//                    stats.put(childSnapshot.getKey(), childSnapshot.getValue().toString());
+                    Log.d("childSnapshot",childSnapshot.getKey()+childSnapshot.getValue().toString());
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            }
 
-                }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
         });
+
 
 //        mGetReference.addValueEventListener(new ValueEventListener() {
 //            @Override
