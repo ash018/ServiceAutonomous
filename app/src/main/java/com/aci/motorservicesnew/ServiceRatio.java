@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,16 +18,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceRatio extends AppCompatActivity {
-    public static String URL_SERVICE_RATIO = "http://mis.digital:7779/genericservice/api/v0/login/";
+    public static String URL_SERVICE_RATIO = "http://dashboard.acigroup.info/motorservices_mobile_api/budgetVsAch.php";
     private String userId;
-    private ProgressDialog pDialog;
+    public ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,57 +38,54 @@ public class ServiceRatio extends AppCompatActivity {
         Intent selProIntent = getIntent();
         userId = selProIntent.getStringExtra("UserId");
         getServiceRatio(userId);
+        SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
+        userId = sp.getString("UserId", "TestXXXX");
+
     }
 
     private void getServiceRatio(final String userId) {
         String tag_string_req = "req_login";
 
-        pDialog.setMessage("Logging in ...");
-        showDialog();
+        //pDialog.setMessage("Logging in ...");
+        //showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 URL_SERVICE_RATIO, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                hideDialog();
+               // hideDialog();
 
                 try {
-                    JSONObject jObj = new JSONObject(response);
+                    JSONArray jArr = new JSONArray(response);
+                //    JSONObject jObj = new JSONObject(response);
                     //boolean error = jObj.getBoolean("error");
-                    String status = jObj.getString("StatusCode");
-                    String msg = jObj.getString("StatusMessage");
-                    System.out.println("REEE" + response);
+//                    String status = jObj.getString("StatusCode");
+//                    String msg = jObj.getString("StatusMessage");
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    TextView budgetWarranty = (TextView) findViewById(R.id.budgetWarranty);
+                    TextView achivementWarranty = (TextView) findViewById(R.id.achivementWarranty);
+                    TextView percentWarranty = (TextView) findViewById(R.id.percentWarranty);
+                    TextView postBudgetWarranty = (TextView) findViewById(R.id.postBudgetWarranty);
+                    TextView postAchivementWarranty = (TextView) findViewById(R.id.postAchivementWarranty);
+                    TextView postPercentWarranty = (TextView) findViewById(R.id.postPercentWarranty);
 
-                    if (status.equals("200")) {
+                    Float budgetFloat,achivementFloat,postBudgetFloat,postAchivementFloat;
+                    budgetFloat = Float.parseFloat(jArr.getJSONObject(0).getString("Target"));
+                    achivementFloat = Float.parseFloat(jArr.getJSONObject(0).getString("Ach"));
 
-//                        SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor ed = sp.edit();
-//                        ed.putString("UserId", email);
-//                        //ed.putString("Mobile",password);
-//                        ed.commit();
-//
-//                        Intent jorori_intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(jorori_intent);
-//                        finish();
-                        TextView budgetWarranty = (TextView) findViewById(R.id.budgetWarranty);
-                        TextView achivementWarranty = (TextView) findViewById(R.id.achivementWarranty);
-                        TextView percentWarranty = (TextView) findViewById(R.id.percentWarranty);
-                        TextView postWarranty = (TextView) findViewById(R.id.postWarranty);
-                        TextView postAchivementWarranty = (TextView) findViewById(R.id.postAchivementWarranty);
-                        TextView postPercentWarranty = (TextView) findViewById(R.id.postPercentWarranty);
+                    postBudgetFloat = Float.parseFloat(jArr.getJSONObject(1).getString("Target"));
+                    postAchivementFloat = Float.parseFloat(jArr.getJSONObject(1).getString("Ach"));
 
-                    } else {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-//                        builder.setMessage("আপনার UserId অথবা Password ভুল হয়েছে। আবার চেষ্টা করুন।")
-//                                .setCancelable(false)
-//                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                    }
-//                                });
-//                        AlertDialog alert = builder.create();
-//                        alert.show();
-                    }
+
+                    budgetWarranty.setText(jArr.getJSONObject(0).getString("Target"));
+                    achivementWarranty.setText(jArr.getJSONObject(0).getString("Ach"));
+                    percentWarranty.setText(String.valueOf(df.format((achivementFloat/budgetFloat)*100)));
+
+                    postBudgetWarranty.setText(jArr.getJSONObject(1).getString("Target"));
+                    postAchivementWarranty.setText(jArr.getJSONObject(1).getString("Ach"));
+                    postPercentWarranty.setText(String.valueOf(df.format((postAchivementFloat/postBudgetFloat)*100)));
+
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
@@ -100,7 +100,7 @@ public class ServiceRatio extends AppCompatActivity {
                 //Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
+               // hideDialog();
             }
         }) {
 
@@ -116,13 +116,14 @@ public class ServiceRatio extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-        private void showDialog() {
-            if (!pDialog.isShowing())
-                pDialog.show();
-        }
+//    private void showDialog() {
+//        if (!pDialog.isShowing())
+//            pDialog.show();
+//    }
+//
+//    private void hideDialog() {
+//        if (pDialog.isShowing())
+//            pDialog.dismiss();
+//    }
 
-        private void hideDialog() {
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-        }
 }

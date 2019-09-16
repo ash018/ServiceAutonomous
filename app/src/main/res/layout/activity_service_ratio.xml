@@ -73,7 +73,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TableRow>
+                <TableRow
+
+                    android:background="@drawable/border">
                     <TextView
                         android:id="@+id/title"
                         android:layout_height="45dip"
@@ -114,7 +116,8 @@
                     </TextView>
                 </TableRow>
 
-                <TableRow>
+                <TableRow
+                    android:background="@drawable/border">
                     <TextView
                         android:id="@+id/ivWarranty"
                         android:layout_height="45dip"
@@ -155,7 +158,8 @@
                     </TextView>
                 </TableRow>
 
-                <TableRow>
+                <TableRow
+                    android:background="@drawable/border">
                     <TextView
                         android:id="@+id/postWarranty"
                         android:layout_height="45dip"

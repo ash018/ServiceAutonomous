@@ -1,5 +1,6 @@
 package com.aci.motorservicesnew;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private ProgressDialog pDialog;
-
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mGetReference = mDatabase.getReference();
+//    public static String URL_LOGIN = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +54,69 @@ public class LoginActivity extends AppCompatActivity {
         btnSignin = (Button) findViewById(R.id.btnSignin);
 
 
+        mGetReference.child("url").child("5XNRqCOHUCeSpRMiZ2tU").addListenerForSingleValueEvent(
+
+            new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Url url = dataSnapshot.getValue(Url.class);
+                    Log.wtf("TAG",url.LOGIN_URL);
+                    URL_LOGIN  = url.LOGIN_URL;
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+        });
+
+//        mGetReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                if (dataSnapshot.exists()){
+//                    HashMap<String, Object> dataMap = (HashMap<String, Object>) dataSnapshot.getValue();
+//
+//                    for (String key : dataMap.keySet()){
+//
+//                        Object data = dataMap.get(key);
+//
+//                        try{
+//                            HashMap<String, Object> urlData = (HashMap<String, Object>) data;
+//
+////                            User mUser = new User((String) userData.get("name"), (int) (long) userData.get("age"));
+////                            addTextToView(mUser.getName() + " - " + Integer.toString(mUser.getAge()));
+//                            Log.wtf("LOGIN_URL",String.valueOf(urlData));
+//
+//                        }catch (ClassCastException cce){
+//
+//                        // If the object can’t be casted into HashMap, it means that it is of type String.
+//
+//                            try{
+//
+////                                String mString = String.valueOf(dataMap.get(key));
+////                                addTextToView(mString);
+//                                Log.wtf("LOGIN_URL","ERROR");
+//
+//                            } catch (ClassCastException cce2){
+//
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
         btnSignin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
                 String email = txtUsername.getText().toString().trim();
                 String password = txtPassword.getText().toString().trim();
 
