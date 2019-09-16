@@ -67,9 +67,6 @@ public class PostwarrentyEntry extends AppCompatActivity {
             }
         });
 
-        if(serviceCall.equals("2")){
-            instdateofbuy.setVisibility(View.GONE);
-        }
 
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
@@ -129,14 +126,10 @@ public class PostwarrentyEntry extends AppCompatActivity {
                 String hours = insthoureofbuy.getText().toString();
 
                 String buyingDate = "";
-                if (serviceCall.equals("2")){
-                    Calendar calendar = Calendar.getInstance(); // gets current instance of the calendar
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    buyingDate = formatter.format(calendar.getTime());
-                }
-                else{
-                    buyingDate = instdateofbuy.getText().toString();
-                }
+
+
+                buyingDate = instdateofbuy.getText().toString();
+
 
 
                 //System.out.println("customerName==="+customerName+"==mobile=="+mobile+"==buyingDate=="+buyingDate);
