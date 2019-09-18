@@ -60,7 +60,6 @@
                 android:text="সার্ভিস রেশিও"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -84,8 +83,7 @@
                         android:layout_weight="6"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="সার্ভিস"
-                        android:textSize="24sp" />
+                        android:text="সার্ভিস" />
 
 
                     <TextView
@@ -96,8 +94,7 @@
                         android:layout_marginRight="10dip"
                         android:ellipsize="marquee"
                         android:singleLine="true"
-                        android:text="বাজেট"
-                        android:textSize="24sp" />
+                        android:text="বাজেট" />
 
                     <TextView
                         android:layout_weight="1"
@@ -111,8 +108,7 @@
                         android:layout_weight="1"
                         android:id="@+id/cart2"
                         android:gravity="center"
-                        android:text="%"
-                        android:textSize="24sp">
+                        android:text="%">
                     </TextView>
                 </TableRow>
 
@@ -126,8 +122,7 @@
                         android:layout_weight="6"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="ওয়ারেন্টি"
-                        android:textSize="24sp" />
+                        android:text="ওয়ারেন্টি" />
 
 
                     <TextView
@@ -138,23 +133,20 @@
                         android:layout_marginRight="10dip"
                         android:ellipsize="marquee"
                         android:singleLine="true"
-                        android:text=""
-                        android:textSize="24sp" />
+                        android:text="" />
 
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/achivementWarranty"
                         android:gravity="center"
-                        android:text=""
-                        android:textSize="24sp" >
+                        android:text="" >
                     </TextView>
 
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/percentWarranty"
                         android:gravity="center"
-                        android:text=""
-                        android:textSize="24sp">
+                        android:text="">
                     </TextView>
                 </TableRow>
 
@@ -168,8 +160,7 @@
                         android:layout_weight="6"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="পোস্ট ওয়ারেন্টি"
-                        android:textSize="24sp" />
+                        android:text="পোস্ট ওয়ারেন্টি" />
 
 
                     <TextView
@@ -180,23 +171,20 @@
                         android:layout_marginRight="10dip"
                         android:ellipsize="marquee"
                         android:singleLine="true"
-                        android:text=""
-                        android:textSize="24sp" />
+                        android:text="" />
 
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/postAchivementWarranty"
                         android:gravity="center"
-                        android:text=""
-                        android:textSize="24sp" >
+                        android:text="" >
                     </TextView>
 
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/postPercentWarranty"
                         android:gravity="center"
-                        android:text=""
-                        android:textSize="24sp">
+                        android:text="">
                     </TextView>
                 </TableRow>
 

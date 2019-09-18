@@ -27,22 +27,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    public static String URL_LOGIN = "http://mis.digital:7779/genericservice/api/v0/login/";
+    public static String URL_LOGIN = "http://192.168.101.188:7005/genericservice/api/v0/login/";
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private ProgressDialog pDialog;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mGetReference = mDatabase.getReference("url");
 //    public static String URL_LOGIN = "";
-    @SuppressLint("RestrictedApi")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,77 +58,13 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
 
-        DatabaseReference reference = mDatabase.getReference();
-        Log.d("childSnapshot",String.valueOf(reference.getPath()));
+        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+
+        String LOGIN_URL = firebaseRemoteConfig.getString("LOGIN_URL");
+
+        Log.wtf("LOGIN_URL",LOGIN_URL);
 
 
-
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // dataSnapshot value will be Matematik, {ahmetozrahat=50, nihatkeklik=50}
-                // because it is indeed the value we need
-
-                // But you want key value pair to be added to your stats
-                // So we can just loop through the values
-
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-//                    stats.put(childSnapshot.getKey(), childSnapshot.getValue().toString());
-                    Log.d("childSnapshot",childSnapshot.getKey()+childSnapshot.getValue().toString());
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-//        mGetReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                if (dataSnapshot.exists()){
-//                    HashMap<String, Object> dataMap = (HashMap<String, Object>) dataSnapshot.getValue();
-//
-//                    for (String key : dataMap.keySet()){
-//
-//                        Object data = dataMap.get(key);
-//
-//                        try{
-//                            HashMap<String, Object> urlData = (HashMap<String, Object>) data;
-//
-////                            User mUser = new User((String) userData.get("name"), (int) (long) userData.get("age"));
-////                            addTextToView(mUser.getName() + " - " + Integer.toString(mUser.getAge()));
-//                            Log.wtf("LOGIN_URL",String.valueOf(urlData));
-//
-//                        }catch (ClassCastException cce){
-//
-//                        // If the object can’t be casted into HashMap, it means that it is of type String.
-//
-//                            try{
-//
-////                                String mString = String.valueOf(dataMap.get(key));
-////                                addTextToView(mString);
-//                                Log.wtf("LOGIN_URL","ERROR");
-//
-//                            } catch (ClassCastException cce2){
-//
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
 
         btnSignin.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
