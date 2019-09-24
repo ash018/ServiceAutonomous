@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "602219039002",
+    "firebase_url": "https://serviceautomas-25b31.firebaseio.com",
+    "project_id": "serviceautomas-25b31",
+    "storage_bucket": "serviceautomas-25b31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602219039002:android:5cb71d8da47448a31204a3",
+        "android_client_info": {
+          "package_name": "com.aci.motorservicesnew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602219039002-4qv0eol2u5o67r59akkm1ghvq5kkafao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfvRInwLc4AE8GvKisRy0lC0XcRsYAm-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602219039002-4qv0eol2u5o67r59akkm1ghvq5kkafao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

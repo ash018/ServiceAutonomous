@@ -38,8 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private String url_all_kiosk = " http://mis.digital:7779/genericservice/api/v0/manageservice/";
-    private String url_download_customer = "http://mis.digital:7779/genericservice/api/v0/getuserservice/";
+    private String url_all_kiosk = "http://192.168.101.188:7005/genericservice/api/v0/manageservice/";
+    private String url_download_customer = "http://192.168.101.188:7005/genericservice/api/v0/getuserservice/";
 
     private ImageView imgjobcard, imgjobcardview, imglogout, imgserviceperformance, upload_to_server;
     private DatabaseHelper db;
@@ -65,48 +65,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(jorori_intent);
             finish();
         }
+        else {
 
-        imgjobcard = (ImageView) findViewById(R.id.imgjobcard);
-        imgjobcardview = (ImageView) findViewById(R.id.imgjobcardview);
-        imglogout = (ImageView) findViewById(R.id.imglogout);
-        imgserviceperformance = (ImageView) findViewById(R.id.imgserviceperformance);
-        upload_to_server = (ImageView) findViewById(R.id.upload_to_server);
+            imgjobcard = (ImageView) findViewById(R.id.imgjobcard);
+            imgjobcardview = (ImageView) findViewById(R.id.imgjobcardview);
+            imglogout = (ImageView) findViewById(R.id.imglogout);
+            imgserviceperformance = (ImageView) findViewById(R.id.imgserviceperformance);
+            upload_to_server = (ImageView) findViewById(R.id.upload_to_server);
 
-        if(!db.isNeedSychForUpdateLocalDB()){
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if(cm.getActiveNetworkInfo() == null){
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("আপানর ইন্টারনেট সংযোগ On করুন।")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-            else{
-                downloadCustomerData(userId);
-            }
-        }
-
-        if(db.isAnyDataForSynch()){
-            String uri = "@drawable/ic_uploadto_server_green";
-            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-            Drawable res = getResources().getDrawable(imageResource);
-            upload_to_server.setImageDrawable(res);
-        }
-        else{
-            String uri = "@drawable/ic_upload";
-            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-            Drawable res = getResources().getDrawable(imageResource);
-            upload_to_server.setImageDrawable(res);
-        }
-        upload_to_server.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            if (!db.isNeedSychForUpdateLocalDB()) {
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                if(cm.getActiveNetworkInfo() == null){
+                if (cm.getActiveNetworkInfo() == null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage("আপানর ইন্টারনেট সংযোগ On করুন।")
                             .setCancelable(false)
@@ -116,63 +85,93 @@ public class MainActivity extends AppCompatActivity {
                             });
                     AlertDialog alert = builder.create();
                     alert.show();
+                } else {
+                    downloadCustomerData(userId);
                 }
-                else {
-                    List<EditServiceRow> recvRow = db.getAllDataToSynch();
-                    Gson gson = new Gson();
-                    String json = gson.toJson(recvRow);
+            }
 
-                    int[] recIds = new int[recvRow.size()];
+            if (db.isAnyDataForSynch()) {
+                String uri = "@drawable/ic_uploadto_server_green";
+                int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+                Drawable res = getResources().getDrawable(imageResource);
+                upload_to_server.setImageDrawable(res);
+            } else {
+                String uri = "@drawable/ic_upload";
+                int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+                Drawable res = getResources().getDrawable(imageResource);
+                upload_to_server.setImageDrawable(res);
+            }
+            upload_to_server.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if (cm.getActiveNetworkInfo() == null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("আপানর ইন্টারনেট সংযোগ On করুন।")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    } else {
+                        List<EditServiceRow> recvRow = db.getAllDataToSynch();
+                        Gson gson = new Gson();
+                        String json = gson.toJson(recvRow);
 
-                    int k = 0;
-                    for (EditServiceRow ro : recvRow) {
-                        recIds[k] = ro.getKEY_ID();
-                        k++;
+                        int[] recIds = new int[recvRow.size()];
+
+                        int k = 0;
+                        for (EditServiceRow ro : recvRow) {
+                            recIds[k] = ro.getKEY_ID();
+                            k++;
+                        }
+
+                        //db.updateAllSynStatus(recIds);
+                        //System.out.println("UserId==="+userId);
+                        sendDataToSynch(userId, json, recvRow);
                     }
-
-                    //db.updateAllSynStatus(recIds);
-                    //System.out.println("UserId==="+userId);
-                    sendDataToSynch(userId, json,recvRow);
                 }
-            }
-        });
+            });
 
-        imgjobcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent jorori_intent = new Intent(MainActivity.this, SelectProduct.class);
-                jorori_intent.putExtra("Edit", "0");
-                startActivity(jorori_intent);
-            }
-        });
+            imgjobcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent jorori_intent = new Intent(MainActivity.this, SelectProduct.class);
+                    jorori_intent.putExtra("Edit", "0");
+                    startActivity(jorori_intent);
+                }
+            });
 
-        imgjobcardview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent jorori_intent = new Intent(MainActivity.this, ViewAllServices.class);
-                startActivity(jorori_intent);
-            }
-        });
+            imgjobcardview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent jorori_intent = new Intent(MainActivity.this, ViewAllServices.class);
+                    startActivity(jorori_intent);
+                }
+            });
 
-        imgserviceperformance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent jorori_intent = new Intent(MainActivity.this, ServicePerformance.class);
-                jorori_intent.putExtra("UserId",userId);
-                startActivity(jorori_intent);
-            }
-        });
+            imgserviceperformance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent jorori_intent = new Intent(MainActivity.this, ServicePerformance.class);
+                    jorori_intent.putExtra("UserId", userId);
+                    startActivity(jorori_intent);
+                }
+            });
 
-        imglogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences preferences = getSharedPreferences("MotorService", 0);
-                preferences.edit().remove("UserId").commit();
-                Intent jorori_intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(jorori_intent);
-                finish();
-            }
-        });
+            imglogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences preferences = getSharedPreferences("MotorService", 0);
+                    preferences.edit().remove("UserId").commit();
+                    Intent jorori_intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(jorori_intent);
+                    finish();
+                }
+            });
+        }
     }
 
     private void sendDataToSynch(String userId, String dataJson, final List<EditServiceRow> serviceRowList) {

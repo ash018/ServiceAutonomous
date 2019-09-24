@@ -85,8 +85,6 @@
                         android:singleLine="true"
                         android:text="সার্ভিস"
                          />
-
-
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
@@ -97,7 +95,6 @@
                         android:singleLine="true"
                         android:text="বাজেট"
                          />
-
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/cart"
@@ -125,8 +122,6 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="ওয়ারেন্টি " />
-
-
                     <TextView
                         android:id="@+id/budgetWarranty"
                         android:layout_width="wrap_content"
@@ -164,7 +159,6 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="পোস্ট ওয়ারেন্টি " />
-
 
                     <TextView
                         android:id="@+id/postBudgetWarranty"
