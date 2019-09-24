@@ -58,11 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
 
-        FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-
-        String LOGIN_URL = firebaseRemoteConfig.getString("LOGIN_URL");
-
-        Log.wtf("LOGIN_URL",LOGIN_URL);
 
 
 
