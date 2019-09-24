@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +25,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceRatio extends AppCompatActivity {
-    public static String URL_SERVICE_RATIO = "http://dashboard.acigroup.info/motorservices_mobile_api/budgetVsAch.php";
+    //public static String URL_SERVICE_RATIO = "http://dashboard.acigroup.info/motorservices_mobile_api/budgetVsAch.php";
+    public static String URL_SERVICE_RATIO = "http://mis.digital:7779/genericservice/api/v0/getservicevsachievement/";
     private String userId;
     public ProgressDialog pDialog;
+    private static ImageView mainmenuid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,16 @@ public class ServiceRatio extends AppCompatActivity {
         getServiceRatio(userId);
         SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
         userId = sp.getString("UserId", "TestXXXX");
+
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ServiceRatio.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
     }
 
@@ -58,7 +74,9 @@ public class ServiceRatio extends AppCompatActivity {
 
                 try {
                     JSONArray jArr = new JSONArray(response);
-                //    JSONObject jObj = new JSONObject(response);
+                    //JSONObject jObj = new JSONObject(response);
+//                    Log.d("jobj",String.valueOf(response));
+//                    JSONObject jObj = new JSONObject(response);
                     //boolean error = jObj.getBoolean("error");
 //                    String status = jObj.getString("StatusCode");
 //                    String msg = jObj.getString("StatusMessage");
@@ -71,6 +89,8 @@ public class ServiceRatio extends AppCompatActivity {
                     TextView postPercentWarranty = (TextView) findViewById(R.id.postPercentWarranty);
 
                     Float budgetFloat,achivementFloat,postBudgetFloat,postAchivementFloat;
+                    String servicetext;
+
                     budgetFloat = Float.parseFloat(jArr.getJSONObject(0).getString("Target"));
                     achivementFloat = Float.parseFloat(jArr.getJSONObject(0).getString("Ach"));
 
@@ -108,7 +128,11 @@ public class ServiceRatio extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
+
+                SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM" );
+
                 params.put("UserId", userId);
+                params.put("Period", sdf.format(new Date())+"-01");
 
                 return params;
             }

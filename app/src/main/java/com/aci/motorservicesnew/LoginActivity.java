@@ -22,11 +22,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+/*
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+*/
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private ProgressDialog pDialog;
-    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mGetReference = mDatabase.getReference("url");
+    //private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    //private DatabaseReference mGetReference = mDatabase.getReference("url");
 //    public static String URL_LOGIN = "";
     @SuppressLint("RestrictedApi")
     @Override
@@ -55,13 +57,13 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
 
-        DatabaseReference reference = mDatabase.getReference();
-        Log.d("childSnapshot",String.valueOf(reference.getPath()));
+        //DatabaseReference reference = mDatabase.getReference();
+        //Log.d("childSnapshot",String.valueOf(reference.getPath()));
 
 
 
 
-        reference.addValueEventListener(new ValueEventListener() {
+        /*reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // dataSnapshot value will be Matematik, {ahmetozrahat=50, nihatkeklik=50}
@@ -82,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
+*/
 
 //        mGetReference.addValueEventListener(new ValueEventListener() {
 //            @Override
