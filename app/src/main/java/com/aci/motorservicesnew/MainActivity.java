@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private String url_all_kiosk = "http://192.168.101.188:7005/genericservice/api/v0/manageservice/";
-    private String url_download_customer = "http://192.168.101.188:7005/genericservice/api/v0/getuserservice/";
+    private String url_all_kiosk = "http://mis.digital:7779/genericservice/api/v0/manageservice/";
+    private String url_download_customer = "http://mis.digital:7779/genericservice/api/v0/getuserservice/";
 
     private ImageView imgjobcard, imgjobcardview, imglogout, imgserviceperformance, upload_to_server;
     private DatabaseHelper db;
@@ -56,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(getApplicationContext());
         db.getWritableDatabase();
-
-        SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
+        SharedPreferences sp;
+        sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
         userId = sp.getString("UserId", "TestXXXX");
+
 
         if(userId.equalsIgnoreCase("TestXXXX")){
             Intent jorori_intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else {
-
+            final Bundle bundle = getIntent().getExtras();
             imgjobcard = (ImageView) findViewById(R.id.imgjobcard);
             imgjobcardview = (ImageView) findViewById(R.id.imgjobcardview);
             imglogout = (ImageView) findViewById(R.id.imglogout);
@@ -156,8 +158,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent jorori_intent = new Intent(MainActivity.this, ServicePerformance.class);
-                    jorori_intent.putExtra("UserId", userId);
+                    bundle.putString("UserId",userId);
+                    //jorori_intent.putExtra("UserId", userId);
+                    jorori_intent.putExtras(bundle);
                     startActivity(jorori_intent);
+                    finish();
                 }
             });
 
@@ -193,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         int[] recIds = new int[serviceRowList.size()];
-                        //System.out.println("==============="+jsonObject.toString());
+                        System.out.println("==============="+jsonObject.toString());
 
                         int k = 0;
                         for (EditServiceRow ro : serviceRowList) {
@@ -207,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
                         Drawable res = getResources().getDrawable(imageResource);
                         upload_to_server.setImageDrawable(res);
-
+                        System.out.println("upload_to_server");
                         hideDialog();
                     }
                 }, new Response.ErrorListener() {

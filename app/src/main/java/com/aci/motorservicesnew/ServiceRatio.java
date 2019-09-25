@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,23 +25,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceRatio extends AppCompatActivity {
-    public static String URL_SERVICE_RATIO = "http://dashboard.acigroup.info/motorservices_mobile_api/budgetVsAch.php";
+    //public static String URL_SERVICE_RATIO = "http://dashboard.acigroup.info/motorservices_mobile_api/budgetVsAch.php";
+    public static String URL_SERVICE_RATIO = "http://mis.digital:7779/genericservice/api/v0/getservicevsachievement/";
     private String userId;
     public ProgressDialog pDialog;
+    private static ImageView mainmenuid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_ratio);
 
-        Intent selProIntent = getIntent();
-        userId = selProIntent.getStringExtra("UserId");
+        final Bundle bundle = getIntent().getExtras();
+        userId = bundle.getString("UserId");
         getServiceRatio(userId);
-        SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
-        userId = sp.getString("UserId", "TestXXXX");
+
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ServiceRatio.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
     }
 
@@ -57,34 +71,54 @@ public class ServiceRatio extends AppCompatActivity {
                // hideDialog();
 
                 try {
-                    JSONArray jArr = new JSONArray(response);
-                //    JSONObject jObj = new JSONObject(response);
+//                    JSONArray jArr = new JSONArray(response);
+                    JSONObject jObj = new JSONObject(response);
+                    Log.d("jobj",String.valueOf(jObj));
+//                    JSONObject jObj = new JSONObject(response);
                     //boolean error = jObj.getBoolean("error");
-//                    String status = jObj.getString("StatusCode");
+                    String status = jObj.getString("StatusCode");
+                    Log.d("status",status);
 //                    String msg = jObj.getString("StatusMessage");
-                    DecimalFormat df = new DecimalFormat("#.##");
-                    TextView budgetWarranty = (TextView) findViewById(R.id.budgetWarranty);
-                    TextView achivementWarranty = (TextView) findViewById(R.id.achivementWarranty);
-                    TextView percentWarranty = (TextView) findViewById(R.id.percentWarranty);
-                    TextView postBudgetWarranty = (TextView) findViewById(R.id.postBudgetWarranty);
-                    TextView postAchivementWarranty = (TextView) findViewById(R.id.postAchivementWarranty);
-                    TextView postPercentWarranty = (TextView) findViewById(R.id.postPercentWarranty);
+                    if(status.equals("200")) {
+                        String msg = jObj.getString("StatusMessage");
+                        Log.d("msg",msg);
+                        JSONArray msgArr = new JSONArray(msg);
+                        String warrantyAchievement = msgArr.getJSONObject(0).getString("WARRANTY");
+                        String warrantyTarget = msgArr.getJSONObject(0).getString("WarrantyServiceTarget");
 
-                    Float budgetFloat,achivementFloat,postBudgetFloat,postAchivementFloat;
-                    budgetFloat = Float.parseFloat(jArr.getJSONObject(0).getString("Target"));
-                    achivementFloat = Float.parseFloat(jArr.getJSONObject(0).getString("Ach"));
-
-                    postBudgetFloat = Float.parseFloat(jArr.getJSONObject(1).getString("Target"));
-                    postAchivementFloat = Float.parseFloat(jArr.getJSONObject(1).getString("Ach"));
+                        String postWarrantyAchievement = msgArr.getJSONObject(0).getString("POSTWARRANTY");
+                        String postWarrantyTarget = msgArr.getJSONObject(0).getString("PostWarrantyServiceTarget");
 
 
-                    budgetWarranty.setText(jArr.getJSONObject(0).getString("Target"));
-                    achivementWarranty.setText(jArr.getJSONObject(0).getString("Ach"));
-                    percentWarranty.setText(String.valueOf(df.format((achivementFloat/budgetFloat)*100)));
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        TextView budgetWarranty = (TextView) findViewById(R.id.budgetWarranty);
+                        TextView achivementWarranty = (TextView) findViewById(R.id.achivementWarranty);
+                        TextView percentWarranty = (TextView) findViewById(R.id.percentWarranty);
+                        TextView postBudgetWarranty = (TextView) findViewById(R.id.postBudgetWarranty);
+                        TextView postAchivementWarranty = (TextView) findViewById(R.id.postAchivementWarranty);
+                        TextView postPercentWarranty = (TextView) findViewById(R.id.postPercentWarranty);
 
-                    postBudgetWarranty.setText(jArr.getJSONObject(1).getString("Target"));
-                    postAchivementWarranty.setText(jArr.getJSONObject(1).getString("Ach"));
-                    postPercentWarranty.setText(String.valueOf(df.format((postAchivementFloat/postBudgetFloat)*100)));
+                        Float budgetFloat,achivementFloat,postBudgetFloat,postAchivementFloat;
+                        String servicetext;
+
+                        budgetFloat = Float.parseFloat(warrantyTarget);
+                        achivementFloat = Float.parseFloat(warrantyAchievement);
+
+                        postBudgetFloat = Float.parseFloat(postWarrantyTarget);
+                        postAchivementFloat = Float.parseFloat(postWarrantyAchievement);
+
+
+                        budgetWarranty.setText(warrantyTarget);
+                        achivementWarranty.setText(warrantyAchievement);
+                        percentWarranty.setText(String.valueOf(df.format((achivementFloat/budgetFloat)*100)));
+
+                        postBudgetWarranty.setText(postWarrantyTarget);
+                        postAchivementWarranty.setText(postWarrantyAchievement);
+                        postPercentWarranty.setText(String.valueOf(df.format((postAchivementFloat/postBudgetFloat)*100)));
+
+                    } else{
+                        Toast.makeText(getApplicationContext(),"Bad Request Sent", Toast.LENGTH_LONG);
+                    }
 
                 } catch (JSONException e) {
                     // JSON error
@@ -108,7 +142,11 @@ public class ServiceRatio extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
+
+                SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM" );
+
                 params.put("UserId", userId);
+                params.put("Period", sdf.format(new Date())+"-01");
 
                 return params;
             }

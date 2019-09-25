@@ -83,9 +83,8 @@
                         android:layout_weight="6"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="সার্ভিস" />
-
-
+                        android:text="সার্ভিস"
+                         />
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
@@ -94,14 +93,13 @@
                         android:layout_marginRight="10dip"
                         android:ellipsize="marquee"
                         android:singleLine="true"
-                        android:text="বাজেট" />
-
+                        android:text="বাজেট"
+                         />
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/cart"
                         android:gravity="center"
-                        android:text="এচিভমেন্ট"
-                        android:textSize="24sp" >
+                        android:text="এচিভমেন্ট" >
                     </TextView>
 
                     <TextView
@@ -114,17 +112,16 @@
 
                 <TableRow
                     android:background="@drawable/border">
+
                     <TextView
                         android:id="@+id/ivWarranty"
-                        android:layout_height="45dip"
                         android:layout_width="wrap_content"
+                        android:layout_height="45dip"
                         android:layout_marginRight="10dip"
                         android:layout_weight="6"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="ওয়ারেন্টি" />
-
-
+                        android:text="ওয়ারেন্টি " />
                     <TextView
                         android:id="@+id/budgetWarranty"
                         android:layout_width="wrap_content"
@@ -136,11 +133,11 @@
                         android:text="" />
 
                     <TextView
-                        android:layout_weight="1"
                         android:id="@+id/achivementWarranty"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:text="" >
-                    </TextView>
+                        android:text=""></TextView>
 
                     <TextView
                         android:layout_weight="1"
@@ -152,16 +149,16 @@
 
                 <TableRow
                     android:background="@drawable/border">
+
                     <TextView
                         android:id="@+id/postWarranty"
-                        android:layout_height="45dip"
                         android:layout_width="wrap_content"
+                        android:layout_height="45dip"
                         android:layout_marginRight="10dip"
                         android:layout_weight="6"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="পোস্ট ওয়ারেন্টি" />
-
+                        android:text="পোস্ট ওয়ারেন্টি " />
 
                     <TextView
                         android:id="@+id/postBudgetWarranty"

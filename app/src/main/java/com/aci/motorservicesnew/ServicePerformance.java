@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 public class ServicePerformance extends AppCompatActivity {
 
     private static RadioGroup radiobtngroupservicecall;
     private static Button btnprevious, btnnext;
+    private static ImageView mainmenuid;
 
     private int rdBtnVal = 0;
     private String userId;
@@ -22,8 +24,8 @@ public class ServicePerformance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_performance);
-        Intent selProIntent = getIntent();
-        userId = selProIntent.getStringExtra("UserId");
+        final Bundle bundle = getIntent().getExtras();
+        userId = bundle.getString("UserId");
 
         radiobtngroupservicecall = (RadioGroup) findViewById(R.id.radiobtngroupservicecall);
 
@@ -45,9 +47,27 @@ public class ServicePerformance extends AppCompatActivity {
             }
         });
 
-        btnprevious = (Button) findViewById(R.id.btnprevious);
         btnnext = (Button) findViewById(R.id.btnnext);
 
+        mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
+        mainmenuid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ServicePerformance.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
+
+        btnprevious = (Button) findViewById(R.id.btnprevious);
+        btnprevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextActivity = new Intent(ServicePerformance.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
+            }
+        });
 
         btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +85,15 @@ public class ServicePerformance extends AppCompatActivity {
                 }
                 if(rdBtnVal == 1) {
                     Intent nextActivity = new Intent(ServicePerformance.this, ServiceRatio.class);
-                    nextActivity.putExtra("UserId", userId);
+                    //nextActivity.putExtra("UserId", userId);
+                    bundle.putString("UserId",userId);
                     startActivity(nextActivity);
                 }
 
                 if(rdBtnVal == 2){
                     Intent nextActivity = new Intent(ServicePerformance.this, CustomerSatisfaction.class);
                     nextActivity.putExtra("UserId", userId);
+                    bundle.putString("UserId",userId);
                     startActivity(nextActivity);
                 }
 

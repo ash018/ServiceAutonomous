@@ -22,12 +22,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +32,12 @@ import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    public static String URL_LOGIN = "http://192.168.101.188:7005/genericservice/api/v0/login/";
+    public static String URL_LOGIN = "http://mis.digital:7779/genericservice/api/v0/login/";
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private ProgressDialog pDialog;
-    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mGetReference = mDatabase.getReference("url");
+    //private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    //private DatabaseReference mGetReference = mDatabase.getReference("url");
 //    public static String URL_LOGIN = "";
 
     @Override
@@ -57,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
-
-
 
 
 
