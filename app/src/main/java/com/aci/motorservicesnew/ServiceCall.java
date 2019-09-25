@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.aci.utils.EditServiceRow;
 
@@ -25,6 +26,8 @@ public class ServiceCall extends AppCompatActivity {
 
     EditServiceRow row = null;
     private String isEdit = "";
+
+    public Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,5 +186,15 @@ public class ServiceCall extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, "ফিরে যান বাটনটি ব্যবহার করুন",
+                    Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

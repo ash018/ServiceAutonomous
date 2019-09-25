@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Process;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,6 +42,8 @@ import java.util.Map;
 
 import com.aci.utils.SessionManager;
 
+import static java.lang.System.exit;
+
 public class MainActivity extends AppCompatActivity {
     private String url_all_kiosk = "http://mis.digital:7779/genericservice/api/v0/manageservice/";
     private String url_download_customer = "http://mis.digital:7779/genericservice/api/v0/getuserservice/";
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     //private static String userId = "";
     private SessionManager session;
     private ProgressDialog pDialog;
+    public Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,4 +376,22 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onBackPressed() {
+        if (exit) {
+            //finish(); // finish activity
+            moveTaskToBack(true);
+            android.os.Process.killProcess(Process.myPid());
+            System.exit(1);
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+        }
+    }
 }

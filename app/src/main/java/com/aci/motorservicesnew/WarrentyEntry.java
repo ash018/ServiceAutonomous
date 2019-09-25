@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.aci.utils.EditServiceRow;
 
@@ -37,6 +38,8 @@ public class WarrentyEntry extends AppCompatActivity {
 
     EditServiceRow row = null;
     private String isEdit = "";
+
+    public Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,5 +257,15 @@ public class WarrentyEntry extends AppCompatActivity {
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
+    }
+
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, "ফিরে যান বাটনটি ব্যবহার করুন",
+                    Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

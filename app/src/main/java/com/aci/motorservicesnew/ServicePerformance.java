@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class ServicePerformance extends AppCompatActivity {
 
@@ -20,6 +21,8 @@ public class ServicePerformance extends AppCompatActivity {
 
     private int rdBtnVal = 0;
     private String userId;
+
+    public Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,5 +116,15 @@ public class ServicePerformance extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, "ফিরে যান বাটনটি ব্যবহার করুন",
+                    Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

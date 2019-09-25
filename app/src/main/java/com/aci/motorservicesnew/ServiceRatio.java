@@ -36,6 +36,8 @@ public class ServiceRatio extends AppCompatActivity {
     private String userId;
     public ProgressDialog pDialog;
     private static ImageView mainmenuid;
+
+    public Boolean exit = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,5 +175,13 @@ public class ServiceRatio extends AppCompatActivity {
 //        if (pDialog.isShowing())
 //            pDialog.dismiss();
 //    }
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, "ফিরে যান বাটনটি ব্যবহার করুন",
+                    Toast.LENGTH_SHORT).show();
 
+        }
+    }
 }
