@@ -31,11 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aci.utils.SessionManager;
+
 public class LoginActivity extends AppCompatActivity {
     public static String URL_LOGIN = "http://mis.digital:7779/genericservice/api/v0/login/";
     private EditText txtUsername, txtPassword;
     private Button btnSignin;
     private ProgressDialog pDialog;
+    private SessionManager session;
     //private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     //private DatabaseReference mGetReference = mDatabase.getReference("url");
 //    public static String URL_LOGIN = "";
@@ -51,6 +54,23 @@ public class LoginActivity extends AppCompatActivity {
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         btnSignin = (Button) findViewById(R.id.btnSignin);
+
+        session = new SessionManager(getApplicationContext());
+
+        if (session.isLoggedIn()) {
+            //User is already logged in. Take him to main activity
+
+            String UserId = session.getUserId();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("UserId",UserId);
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+            Log.d("session","loggedin");
+        }
 
 
 
@@ -124,9 +144,16 @@ public class LoginActivity extends AppCompatActivity {
                         //ed.putString("Mobile",password);
                         ed.commit();
 
+                        Bundle bundle = new Bundle();
+                        bundle.putString("UserId",email);
+
+                        session.setUserId(email);
+                        session.setLogin(true);
+
                         Intent jorori_intent = new Intent(LoginActivity.this, MainActivity.class);
+                        jorori_intent.putExtras(bundle);
                         startActivity(jorori_intent);
-                        finish();
+                        //finish();
 
 
                     } else {

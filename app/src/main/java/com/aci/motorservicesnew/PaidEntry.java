@@ -61,6 +61,9 @@ public class PaidEntry extends AppCompatActivity {
         instdateofendofservice = (EditText) findViewById(R.id.instdateofendofservice);
         inserviceincome = (EditText) findViewById(R.id.inserviceincome);
 
+        final Bundle bundle = getIntent().getExtras();
+        final String userId = bundle.getString("UserId");
+
         mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
         mainmenuid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +134,9 @@ public class PaidEntry extends AppCompatActivity {
                             nextActivity.putExtra("ServiceType", serviceType);
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                             finish();
                         }
@@ -140,6 +146,9 @@ public class PaidEntry extends AppCompatActivity {
                             previousActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             previousActivity.putExtra("Edit", "0");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            previousActivity.putExtras(bundle);
                             startActivity(previousActivity);
                             finish();
                         }
@@ -204,6 +213,9 @@ public class PaidEntry extends AppCompatActivity {
                                 installationDate, insServiceEndDate, inservice
                         );
                         Intent nextActivity = new Intent(PaidEntry.this, MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("UserId",userId);
+                        nextActivity.putExtras(bundle);
                         startActivity(nextActivity);
                         finish();
                     }

@@ -59,11 +59,18 @@ public class PeriodicalEntry extends AppCompatActivity {
         instdateofinstallation = (EditText) findViewById(R.id.instdateofinstallation);
         instdateofendofservice = (EditText) findViewById(R.id.instdateofendofservice);
 
+        final Bundle bundle = getIntent().getExtras();
+        final String userId = bundle.getString("UserId");
+
+
         mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
         mainmenuid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UserId",userId);
+                nextActivity.putExtras(bundle);
                 startActivity(nextActivity);
                 finish();
             }
@@ -121,6 +128,9 @@ public class PeriodicalEntry extends AppCompatActivity {
                     nextActivity.putExtra("ServiceType", serviceType);
                     nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                     nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserId",userId);
+                    nextActivity.putExtras(bundle);
                     startActivity(nextActivity);
                     finish();
                 }
@@ -130,6 +140,9 @@ public class PeriodicalEntry extends AppCompatActivity {
                     previousActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                     previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                     previousActivity.putExtra("Edit", "0");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserId",userId);
+                    previousActivity.putExtras(bundle);
                     startActivity(previousActivity);
                     finish();
                 }
@@ -188,6 +201,9 @@ public class PeriodicalEntry extends AppCompatActivity {
                                 installationDate, insServiceEndDate
                         );
                         Intent nextActivity = new Intent(PeriodicalEntry.this, MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("UserId",userId);
+                        nextActivity.putExtras(bundle);
                         startActivity(nextActivity);
                         finish();
                     }

@@ -35,6 +35,8 @@ public class ServiceCall extends AppCompatActivity {
         serviceProduct = selProIntent.getStringExtra("ServiceProduct");
         isEdit = selProIntent.getStringExtra("Edit");
 
+        final Bundle bundle = getIntent().getExtras();
+        final String userId = bundle.getString("UserId");
 
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) selProIntent.getSerializableExtra("RowData");
@@ -79,6 +81,9 @@ public class ServiceCall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nextActivity = new Intent(ServiceCall.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UserId",userId);
+                nextActivity.putExtras(bundle);
                 startActivity(nextActivity);
                 finish();
             }
@@ -117,6 +122,9 @@ public class ServiceCall extends AppCompatActivity {
                     nextActivity.putExtra("Edit", "1");
                     nextActivity.putExtra("IsPrevious", "1");
                     nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserId",userId);
+                    nextActivity.putExtras(bundle);
                     startActivity(nextActivity);
                     finish();
                 }
@@ -124,6 +132,9 @@ public class ServiceCall extends AppCompatActivity {
                     Intent previousActivity = new Intent(ServiceCall.this, SelectProduct.class);
                     previousActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                     previousActivity.putExtra("Edit", "0");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserId",userId);
+                    previousActivity.putExtras(bundle);
                     startActivity(previousActivity);
                     finish();
                 }
@@ -153,6 +164,9 @@ public class ServiceCall extends AppCompatActivity {
                         nextActivity.putExtra("Edit", "1");
                         nextActivity.putExtra("ServiceCallType", String.valueOf(rdBtnVal));
                         nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
+                        Bundle bundle = new Bundle();
+                        bundle.putString("UserId",userId);
+                        nextActivity.putExtras(bundle);
                         startActivity(nextActivity);
                     }
                     if(isEdit.equalsIgnoreCase("0")){
@@ -160,6 +174,9 @@ public class ServiceCall extends AppCompatActivity {
                         nextActivity.putExtra("ServiceCallType", String.valueOf(rdBtnVal));
                         nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                         nextActivity.putExtra("Edit", "0");
+                        Bundle bundle = new Bundle();
+                        bundle.putString("UserId",userId);
+                        nextActivity.putExtras(bundle);
                         startActivity(nextActivity);
                     }
 

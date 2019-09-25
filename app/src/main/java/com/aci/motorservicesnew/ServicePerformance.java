@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,9 +25,11 @@ public class ServicePerformance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_performance);
-        final Bundle bundle = getIntent().getExtras();
-        userId = bundle.getString("UserId");
 
+
+        final Bundle bundle = getIntent().getExtras();
+        final String userId = bundle.getString("UserId");
+        Log.d("userid",userId);
         radiobtngroupservicecall = (RadioGroup) findViewById(R.id.radiobtngroupservicecall);
 
         radiobtngroupservicecall.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -64,6 +67,9 @@ public class ServicePerformance extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nextActivity = new Intent(ServicePerformance.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UserId",userId);
+                nextActivity.putExtras(bundle);
                 startActivity(nextActivity);
                 finish();
             }
@@ -85,8 +91,11 @@ public class ServicePerformance extends AppCompatActivity {
                 }
                 if(rdBtnVal == 1) {
                     Intent nextActivity = new Intent(ServicePerformance.this, ServiceRatio.class);
-                    //nextActivity.putExtra("UserId", userId);
+
+//                    nextActivity.putExtra("UserId", userId);
+                    Bundle bundle = new Bundle();
                     bundle.putString("UserId",userId);
+                    nextActivity.putExtras(bundle);
                     startActivity(nextActivity);
                 }
 

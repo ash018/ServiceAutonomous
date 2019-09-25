@@ -38,14 +38,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aci.utils.SessionManager;
+
 public class MainActivity extends AppCompatActivity {
     private String url_all_kiosk = "http://mis.digital:7779/genericservice/api/v0/manageservice/";
     private String url_download_customer = "http://mis.digital:7779/genericservice/api/v0/getuserservice/";
 
     private ImageView imgjobcard, imgjobcardview, imglogout, imgserviceperformance, upload_to_server;
     private DatabaseHelper db;
-    private static String userId = "";
-
+    //private static String userId = "";
+    private SessionManager session;
     private ProgressDialog pDialog;
 
     @Override
@@ -57,18 +59,22 @@ public class MainActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(getApplicationContext());
         db.getWritableDatabase();
-        SharedPreferences sp;
-        sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
-        userId = sp.getString("UserId", "TestXXXX");
 
 
-        if(userId.equalsIgnoreCase("TestXXXX")){
-            Intent jorori_intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(jorori_intent);
-            finish();
+//        SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
+//        userId = sp.getString("UserId", "TestXXXX");
+
+        session = new SessionManager(getApplicationContext());
+
+
+        final Bundle bundle = getIntent().getExtras();
+        final String userId = bundle.getString("UserId");
+        Log.d("userid",userId);
+        if (!session.isLoggedIn()) {
+            logoutUser();
         }
-        else {
-            final Bundle bundle = getIntent().getExtras();
+       // if(session.isLoggedIn()) {
+
             imgjobcard = (ImageView) findViewById(R.id.imgjobcard);
             imgjobcardview = (ImageView) findViewById(R.id.imgjobcardview);
             imglogout = (ImageView) findViewById(R.id.imglogout);
@@ -142,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent jorori_intent = new Intent(MainActivity.this, SelectProduct.class);
                     jorori_intent.putExtra("Edit", "0");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("UserId",userId);
+                    jorori_intent.putExtras(bundle);
                     startActivity(jorori_intent);
                 }
             });
@@ -158,8 +167,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent jorori_intent = new Intent(MainActivity.this, ServicePerformance.class);
+
+//                    jorori_intent.putExtra("UserId", userId);
+                    Bundle bundle = new Bundle();
                     bundle.putString("UserId",userId);
-                    //jorori_intent.putExtra("UserId", userId);
                     jorori_intent.putExtras(bundle);
                     startActivity(jorori_intent);
                     finish();
@@ -171,12 +182,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     SharedPreferences preferences = getSharedPreferences("MotorService", 0);
                     preferences.edit().remove("UserId").commit();
-                    Intent jorori_intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(jorori_intent);
-                    finish();
+                    logoutUser();
+//                    Intent jorori_intent = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivity(jorori_intent);
+//                    finish();
                 }
             });
-        }
+      //  }
     }
 
     private void sendDataToSynch(String userId, String dataJson, final List<EditServiceRow> serviceRowList) {
@@ -349,6 +361,14 @@ public class MainActivity extends AppCompatActivity {
     }
     private void toastMessage(String message){
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
+    }
+
+    private void logoutUser() {
+        session.setLogin(false);
+        // Launching the login activity
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

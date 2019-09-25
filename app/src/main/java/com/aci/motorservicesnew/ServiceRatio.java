@@ -42,14 +42,24 @@ public class ServiceRatio extends AppCompatActivity {
         setContentView(R.layout.activity_service_ratio);
 
         final Bundle bundle = getIntent().getExtras();
-        userId = bundle.getString("UserId");
+
+        final String userId = bundle.getString("UserId");
+        Log.d("userid",userId);
+//        Intent selProIntent = getIntent();
+//        userId = selProIntent.getStringExtra("UserId");
         getServiceRatio(userId);
+//        SharedPreferences sp = getSharedPreferences("MotorService", Context.MODE_PRIVATE);
+//        userId = sp.getString("UserId", "TestXXXX");
+
 
         mainmenuid = (ImageView) findViewById(R.id.mainmenuid);
         mainmenuid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nextActivity = new Intent(ServiceRatio.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UserId",userId);
+                nextActivity.putExtras(bundle);
                 startActivity(nextActivity);
                 finish();
             }

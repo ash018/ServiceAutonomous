@@ -36,6 +36,9 @@ public class ServiceType extends AppCompatActivity {
         serviceCall = srvTypeIntent.getStringExtra("ServiceCallType");
         isEdit = srvTypeIntent.getStringExtra("Edit");
 
+        final Bundle bundle = getIntent().getExtras();
+        final String userId = bundle.getString("UserId");
+
         if(isEdit.equalsIgnoreCase("1")){
             row = (EditServiceRow) srvTypeIntent.getSerializableExtra("RowData");
             //rdBtnVal = Integer.parseInt(row.getKEY_SERVICE_TYPE());
@@ -83,6 +86,9 @@ public class ServiceType extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nextActivity = new Intent(ServiceType.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("UserId",userId);
+                nextActivity.putExtras(bundle);
                 startActivity(nextActivity);
                 finish();
             }
@@ -177,6 +183,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "1");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
                         if(rdBtnVal == 2){
@@ -186,6 +195,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "1");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -196,6 +208,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "1");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -206,6 +221,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "1");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -216,6 +234,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "1");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -227,6 +248,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "0");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
                         if(rdBtnVal == 2){
@@ -235,6 +259,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "0");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -244,6 +271,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "0");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -253,6 +283,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "0");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
 
@@ -262,6 +295,9 @@ public class ServiceType extends AppCompatActivity {
                             nextActivity.putExtra("ServiceCallType", String.valueOf(serviceCall));
                             nextActivity.putExtra("ServiceProduct", String.valueOf(serviceProduct));
                             nextActivity.putExtra("Edit", "0");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("UserId",userId);
+                            nextActivity.putExtras(bundle);
                             startActivity(nextActivity);
                         }
                     }
